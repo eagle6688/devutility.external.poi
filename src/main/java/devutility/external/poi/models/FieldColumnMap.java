@@ -1,7 +1,9 @@
 package devutility.external.poi.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class FieldColumnMap {
 	/**
@@ -19,5 +21,13 @@ public class FieldColumnMap {
 		FieldColumnEntry entry = new FieldColumnEntry(modelField, columnIndex);
 		map.put(modelField, entry);
 		return entry;
+	}
+
+	/**
+	 * Return all entries in map container.
+	 * @return List<FieldColumnEntry>
+	 */
+	public List<FieldColumnEntry> getEntries() {
+		return new ArrayList<FieldColumnEntry>(map.values());
 	}
 }
