@@ -5,6 +5,16 @@ public class ExcelProperties {
 	private int maxRowsCount;
 	private int maxColumnsCount;
 
+	public ExcelProperties() {
+
+	}
+
+	public ExcelProperties(int maxSheetsCount, int maxRowsCount, int maxColumnsCount) {
+		this.maxSheetsCount = maxSheetsCount;
+		this.maxRowsCount = maxRowsCount;
+		this.maxColumnsCount = maxColumnsCount;
+	}
+
 	public int getMaxSheetsCount() {
 		return maxSheetsCount;
 	}
