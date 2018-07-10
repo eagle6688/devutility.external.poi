@@ -1,8 +1,11 @@
 package devutility.external.poi.models;
 
+import devutility.internal.lang.models.EntityField;
+
 public class FieldColumnEntry {
 	private String modelField;
 	private int columnIndex;
+	private EntityField entityField;
 
 	public FieldColumnEntry() {
 	}
@@ -26,5 +29,13 @@ public class FieldColumnEntry {
 
 	public void setColumnIndex(int columnIndex) {
 		this.columnIndex = columnIndex;
+	}
+
+	public EntityField getEntityField() {
+		return entityField;
+	}
+
+	public void setEntityField(EntityField entityField) {
+		this.entityField = entityField;
 	}
 }

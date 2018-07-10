@@ -1,7 +1,5 @@
 package devutility.external.poi.models;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,19 +25,12 @@ public class FieldColumnMap<T> {
 	 */
 	private List<EntityField> entityFields = new ArrayList<>();
 
-	public FieldColumnMap() {
-		Type type = getClass().getGenericSuperclass();
-
-		if (type instanceof ParameterizedType) {
-			ParameterizedType pType = (ParameterizedType) type;
-			Type claz = pType.getActualTypeArguments()[0];
-
-			if (claz instanceof Class) {
-				this.clazz = (Class<T>) claz;
-			}
-		}
-
-		entityFields = ClassHelper.getEntityFields(clazz);
+	/**
+	 * Constructor
+	 */
+	public FieldColumnMap(Class<T> clazz) {
+		this.clazz = clazz;
+		entityFields = ClassHelper.getEntityFields(this.clazz);
 	}
 
 	/**
@@ -58,8 +49,8 @@ public class FieldColumnMap<T> {
 	 * @return FieldColumnEntry
 	 */
 	public synchronized FieldColumnEntry put(String modelField, int columnIndex) {
-
 		FieldColumnEntry entry = new FieldColumnEntry(modelField, columnIndex);
+		entry.setEntityField(findEntityField(modelField));
 		map.put(modelField, entry);
 		return entry;
 	}
