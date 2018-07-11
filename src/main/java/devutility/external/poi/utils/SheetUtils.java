@@ -3,7 +3,6 @@ package devutility.external.poi.utils;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -43,7 +42,7 @@ public class SheetUtils {
 	 * @return {@code List<T>}
 	 * @throws ReflectiveOperationException
 	 */
-	public static List<T> toList(Sheet sheet, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
+	public static <T> List<T> toList(Sheet sheet, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
 		List<T> list = new LinkedList<>();
 
 		if (sheet == null) {
@@ -52,7 +51,7 @@ public class SheetUtils {
 
 		DataFormatter dataFormatter = new DataFormatter();
 		int rowStart = sheet.getFirstRowNum();
-		int rowEnd = sheet.getLastRowNum();
+		int rowEnd = sheet.getLastRowNum() + 1;
 
 		for (int rowNum = rowStart; rowNum < rowEnd; rowNum++) {
 			Row row = sheet.getRow(rowNum);

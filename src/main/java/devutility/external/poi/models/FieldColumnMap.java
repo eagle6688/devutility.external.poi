@@ -44,12 +44,12 @@ public class FieldColumnMap<T> {
 
 	/**
 	 * Put a new or existed FieldColumnEntry object in map container.
-	 * @param modelField: Field name for model class.
 	 * @param columnIndex: Column index in sheet.
+	 * @param modelField: Field name for model class.
 	 * @return FieldColumnEntry
 	 */
-	public synchronized FieldColumnEntry put(String modelField, int columnIndex) {
-		FieldColumnEntry entry = new FieldColumnEntry(modelField, columnIndex);
+	public synchronized FieldColumnEntry put(int columnIndex, String modelField) {
+		FieldColumnEntry entry = new FieldColumnEntry(columnIndex, modelField);
 		entry.setEntityField(findEntityField(modelField));
 		map.put(modelField, entry);
 		return entry;
