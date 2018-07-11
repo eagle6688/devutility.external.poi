@@ -2,9 +2,11 @@ package devutility.external.poi.utils;
 
 import java.lang.reflect.Method;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import devutility.external.poi.models.FieldColumnEntry;
 import devutility.external.poi.models.FieldColumnMap;
@@ -21,7 +23,7 @@ public class RowUtils {
 	 * @return {@code T}
 	 * @throws ReflectiveOperationException
 	 */
-	public static <T> T toModel(Row row, DataFormatter dataFormatter, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
+	public static T toModel(Row row, DataFormatter dataFormatter, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
 		T model = ClassHelper.newInstance(clazz);
 
 		for (FieldColumnEntry entry : fieldColumnMap.getEntries()) {
@@ -47,5 +49,9 @@ public class RowUtils {
 		}
 
 		return model;
+	}
+
+	public static Row create(Workbook workbook, T model, FieldColumnMap<T> fieldColumnMap) {
+		return null;
 	}
 }
