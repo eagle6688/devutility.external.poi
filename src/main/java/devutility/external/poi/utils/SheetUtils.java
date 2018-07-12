@@ -61,9 +61,10 @@ public class SheetUtils {
 	 * @throws InvocationTargetException
 	 */
 	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		int rowNum = sheet.getLastRowNum();
+
 		for (T model : list) {
-			int rowNum = sheet.getLastRowNum();
-			RowUtils.create(sheet, rowNum, model, fieldColumnMap);
+			RowUtils.create(sheet, rowNum++, model, fieldColumnMap);
 		}
 	}
 

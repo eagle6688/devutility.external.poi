@@ -15,7 +15,6 @@ import devutility.external.poi.common.ExcelType;
 import devutility.external.poi.models.FieldColumnMap;
 import devutility.external.poi.utils.SheetUtils;
 import devutility.external.poi.utils.WorkbookUtils;
-import devutility.internal.io.FileUtils;
 
 public class PoiUtils {
 	/**
@@ -151,7 +150,7 @@ public class PoiUtils {
 	 * @throws FileNotFoundException: Throw while file not found.
 	 */
 	private static FileOutputStream createFileOutputStream(String filePath) throws FileNotFoundException {
-		File file = FileUtils.create(filePath);
+		File file = new File(filePath);
 		return new FileOutputStream(file);
 	}
 }

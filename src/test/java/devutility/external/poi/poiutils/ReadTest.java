@@ -4,8 +4,8 @@ import java.io.InputStream;
 import java.util.List;
 
 import devutility.external.poi.PoiUtils;
-import devutility.external.poi.Test;
 import devutility.external.poi.models.FieldColumnMap;
+import devutility.external.poi.models.ExcelModel;
 import devutility.internal.test.BaseTest;
 import devutility.internal.test.TestExecutor;
 
@@ -17,11 +17,7 @@ public class ReadTest extends BaseTest {
 	}
 
 	private void process(String fileName) {
-		FieldColumnMap<Test> fieldColumnMap = new FieldColumnMap<>(Test.class);
-		fieldColumnMap.put(0, "first");
-		fieldColumnMap.put(1, "second");
-		fieldColumnMap.put(2, "third");
-		fieldColumnMap.put(3, "fourth");
+		FieldColumnMap<ExcelModel> fieldColumnMap = ExcelModel.getFieldColumnMap();
 
 		try (InputStream inputStream = ReadTest.class.getClassLoader().getResourceAsStream(fileName)) {
 			if (inputStream == null) {
@@ -29,9 +25,9 @@ public class ReadTest extends BaseTest {
 				return;
 			}
 
-			List<Test> list = PoiUtils.read(inputStream, "Sheet1", fieldColumnMap, Test.class);
+			List<ExcelModel> list = PoiUtils.read(inputStream, "Sheet1", fieldColumnMap, ExcelModel.class);
 
-			for (Test test : list) {
+			for (ExcelModel test : list) {
 				println(test.toString());
 			}
 		} catch (Exception e) {
