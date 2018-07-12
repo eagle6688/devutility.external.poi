@@ -1,6 +1,7 @@
 package devutility.external.poi.models;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -61,5 +62,15 @@ public class FieldColumnMap<T> {
 	 */
 	public List<FieldColumnEntry> getEntries() {
 		return new ArrayList<FieldColumnEntry>(map.values());
+	}
+
+	/**
+	 * Return all sorted entries in map container.
+	 * @return List<FieldColumnEntry>
+	 */
+	public List<FieldColumnEntry> getSortedEntries() {
+		List<FieldColumnEntry> list = getEntries();
+		list.sort(Comparator.comparingInt(FieldColumnEntry::getColumnIndex));
+		return list;
 	}
 }

@@ -1,11 +1,12 @@
 package devutility.external.poi.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.Sheet;
 
 import devutility.external.poi.models.FieldColumnEntry;
 import devutility.external.poi.models.FieldColumnMap;
@@ -50,7 +51,39 @@ public class RowUtils {
 		return model;
 	}
 
-	public static <T> Row create(Workbook workbook, T model, FieldColumnMap<T> fieldColumnMap) {
-		return null;
+	/**
+	 * Create a new Row in specific Sheet.
+	 * @param workbook: Workbook object.
+	 * @param model: Model object.
+	 * @param fieldColumnMap: FieldColumnMap for type T.
+	 * @return Row
+	 * @throws InvocationTargetException
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
+	public static <T> Row create(Sheet sheet, int rowNum, T model, FieldColumnMap<T> fieldColumnMap) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Row row = sheet.createRow(rowNum);
+
+		for (FieldColumnEntry entry : fieldColumnMap.getSortedEntries()) {
+			EntityField entityField = entry.getEntityField();
+
+			if (entityField == null) {
+				continue;
+			}
+
+			Method getter = entityField.getGetter();
+
+			if (getter == null) {
+				continue;
+			}
+
+			Object value = getter.invoke(model);
+
+			if (value != null) {
+				row.createCell(entry.getColumnIndex()).setCellValue(value.toString());
+			}
+		}
+
+		return row;
 	}
 }

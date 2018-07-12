@@ -1,4 +1,4 @@
-package devutility.external.poi;
+package devutility.external.poi.common;
 
 import devutility.external.poi.models.ExcelProperties;
 

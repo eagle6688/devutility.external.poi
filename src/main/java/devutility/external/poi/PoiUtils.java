@@ -1,6 +1,7 @@
 package devutility.external.poi;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class PoiUtils {
 	public static <T> List<T> read(String filePath, String sheet, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws Exception {
 		List<T> list = new LinkedList<>();
 		Workbook workbook = WorkbookUtils.load(filePath);
-		Sheet sheetObj = SheetUtils.getSheet(workbook, sheet);
+		Sheet sheetObj = SheetUtils.get(workbook, sheet);
 		list = SheetUtils.toList(sheetObj, fieldColumnMap, clazz);
 		workbook.close();
 		return list;
@@ -43,9 +44,17 @@ public class PoiUtils {
 	public static <T> List<T> read(InputStream inputStream, String sheet, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws Exception {
 		List<T> list = new LinkedList<>();
 		Workbook workbook = WorkbookFactory.create(inputStream);
-		Sheet sheetObj = SheetUtils.getSheet(workbook, sheet);
+		Sheet sheetObj = SheetUtils.get(workbook, sheet);
 		list = SheetUtils.toList(sheetObj, fieldColumnMap, clazz);
 		workbook.close();
 		return list;
+	}
+
+	public static <T> OutputStream save(InputStream templateInputStream, String sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) {
+		return null;
+	}
+
+	public static <T> OutputStream save(String sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) {
+		return null;
 	}
 }

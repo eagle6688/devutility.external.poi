@@ -1,5 +1,6 @@
 package devutility.external.poi.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,19 +13,25 @@ import org.apache.poi.ss.util.WorkbookUtil;
 import devutility.external.poi.models.FieldColumnMap;
 
 public class SheetUtils {
-
 	/**
-	 * Create a Sheet object with unsafe name.
+	 * Create an Sheet object with unsafe name.
 	 * @param workbook: Workbook object.
 	 * @param name: Sheet name.
 	 * @return Sheet
 	 */
-	public static Sheet createSheet(Workbook workbook, String name) {
+	public static Sheet create(Workbook workbook, String name) {
 		String safeName = WorkbookUtil.createSafeSheetName(name);
 		return workbook.createSheet(safeName);
 	}
 
-	public static Sheet getSheet(Workbook workbook, String name) throws Exception {
+	/**
+	 * Get an Sheet object.
+	 * @param workbook: Workbook object.
+	 * @param name: Sheet name.
+	 * @return Sheet
+	 * @throws Exception
+	 */
+	public static Sheet get(Workbook workbook, String name) throws Exception {
 		Sheet sheet = workbook.getSheet(name);
 
 		if (sheet == null) {
@@ -35,7 +42,23 @@ public class SheetUtils {
 	}
 
 	/**
-	 * Convert Sheet to list(type T)
+	 * Append list to existed Sheet object.
+	 * @param sheet: Sheet object.
+	 * @param fieldColumnMap: FieldColumnMap object.
+	 * @param list: List object.
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		for (T model : list) {
+			int rowNum = sheet.getLastRowNum() + 1;
+			RowUtils.create(sheet, rowNum, model, fieldColumnMap);
+		}
+	}
+
+	/**
+	 * Convert an Sheet object to list(type T).
 	 * @param sheet
 	 * @param fieldColumnMap
 	 * @param clazz
