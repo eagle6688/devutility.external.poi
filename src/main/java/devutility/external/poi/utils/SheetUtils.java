@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.WorkbookUtil;
 
 import devutility.external.poi.common.ExcelConfig;
+import devutility.external.poi.models.FieldColumnEntry;
 import devutility.external.poi.models.FieldColumnMap;
 
 public class SheetUtils {
@@ -62,9 +63,18 @@ public class SheetUtils {
 	 */
 	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		int rowNum = sheet.getLastRowNum();
+		List<FieldColumnEntry> fieldColumnEntries = fieldColumnMap.getSortedEntries();
 
-		for (T model : list) {
-			RowUtils.create(sheet, rowNum++, model, fieldColumnMap);
+		if (list instanceof LinkedList) {
+			for (T model : list) {
+				RowUtils.create(sheet, rowNum++, model, fieldColumnEntries);
+			}
+
+			return;
+		}
+
+		for (int i = 0; i < list.size(); i++) {
+			RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries);
 		}
 	}
 

@@ -2,6 +2,7 @@ package devutility.external.poi.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -55,23 +56,17 @@ public class RowUtils {
 	 * Create a new Row in specific Sheet.
 	 * @param workbook: Workbook object.
 	 * @param model: Model object.
-	 * @param fieldColumnMap: FieldColumnMap for type T.
+	 * @param fieldColumnEntries: FieldColumnEntry list for type T.
 	 * @return Row
 	 * @throws InvocationTargetException
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public static <T> Row create(Sheet sheet, int rowNum, T model, FieldColumnMap<T> fieldColumnMap) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> Row create(Sheet sheet, int rowNum, T model, List<FieldColumnEntry> fieldColumnEntries) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Row row = sheet.createRow(rowNum);
 
-		for (FieldColumnEntry entry : fieldColumnMap.getSortedEntries()) {
-			EntityField entityField = entry.getEntityField();
-
-			if (entityField == null) {
-				continue;
-			}
-
-			Method getter = entityField.getGetter();
+		for (FieldColumnEntry entry : fieldColumnEntries) {
+			Method getter = entry.getEntityField().getGetter();
 
 			if (getter == null) {
 				continue;
