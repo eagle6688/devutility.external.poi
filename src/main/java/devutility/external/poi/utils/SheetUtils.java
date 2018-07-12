@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.WorkbookUtil;
 
+import devutility.external.poi.common.ExcelConfig;
 import devutility.external.poi.models.FieldColumnMap;
 
 public class SheetUtils {
@@ -42,6 +43,15 @@ public class SheetUtils {
 	}
 
 	/**
+	 * Get sheet name by sheet name format.
+	 * @param index: Sheet index
+	 * @return String
+	 */
+	public static String getName(int index) {
+		return String.format(ExcelConfig.SHEETNAMEFORMAT, index);
+	}
+
+	/**
 	 * Append list to existed Sheet object.
 	 * @param sheet: Sheet object.
 	 * @param fieldColumnMap: FieldColumnMap object.
@@ -52,7 +62,7 @@ public class SheetUtils {
 	 */
 	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		for (T model : list) {
-			int rowNum = sheet.getLastRowNum() + 1;
+			int rowNum = sheet.getLastRowNum();
 			RowUtils.create(sheet, rowNum, model, fieldColumnMap);
 		}
 	}

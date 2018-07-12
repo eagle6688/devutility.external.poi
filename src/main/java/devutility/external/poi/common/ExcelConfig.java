@@ -12,4 +12,9 @@ public class ExcelConfig {
 	 * ExcelProperties for version after 2007.
 	 */
 	public static ExcelProperties EXCELPROPERTIESAFTER07 = new ExcelProperties(255, 1048576, 16384);
+
+	/**
+	 * Sheet name format.
+	 */
+	public static final String SHEETNAMEFORMAT = "Sheet%d";
 }
