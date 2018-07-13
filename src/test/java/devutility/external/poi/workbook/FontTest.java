@@ -13,14 +13,14 @@ import devutility.external.poi.utils.FontUtils;
 import devutility.internal.test.BaseTest;
 import devutility.internal.test.TestExecutor;
 
-public class CellStyleAndFontTest extends BaseTest {
+public class FontTest extends BaseTest {
 	@Override
 	public void run() {
 		process("Test.xlsx");
 	}
 
 	void process(String file) {
-		InputStream inputStream = CellStyleAndFontTest.class.getClassLoader().getResourceAsStream(file);
+		InputStream inputStream = FontTest.class.getClassLoader().getResourceAsStream(file);
 		Workbook workbook = null;
 
 		try {
@@ -30,7 +30,6 @@ public class CellStyleAndFontTest extends BaseTest {
 		}
 
 		println(workbook.getNumberOfFonts());
-		println(workbook.getNumCellStyles());
 
 		for (int i = 0; i < workbook.getNumberOfFonts(); i++) {
 			Font font = workbook.getFontAt((short) i);
@@ -57,6 +56,6 @@ public class CellStyleAndFontTest extends BaseTest {
 	}
 
 	public static void main(String[] args) {
-		TestExecutor.run(CellStyleAndFontTest.class);
+		TestExecutor.run(FontTest.class);
 	}
 }
