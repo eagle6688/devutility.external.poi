@@ -60,7 +60,7 @@ public class FontUtils {
 		newFont.setColor(font.getColor());
 		newFont.setFontHeight(font.getFontHeight());
 		newFont.setFontHeightInPoints(font.getFontHeightInPoints());
-		newFont.setFontName(String.format("%s_copy", font.getFontName()));
+		newFont.setFontName(font.getFontName());
 		newFont.setItalic(font.getItalic());
 		newFont.setStrikeout(font.getStrikeout());
 		newFont.setTypeOffset(font.getTypeOffset());

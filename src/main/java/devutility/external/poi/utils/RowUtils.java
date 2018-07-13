@@ -75,10 +75,18 @@ public class RowUtils {
 			Object value = getter.invoke(model);
 
 			if (value != null) {
-				row.createCell(entry.getColumnIndex()).setCellValue(value.toString());
+				Cell cell = row.createCell(entry.getColumnIndex());
+				cell.setCellValue(value.toString());
+				applyStyle(cell, entry);
 			}
 		}
 
 		return row;
+	}
+
+	public static void applyStyle(Cell cell, FieldColumnEntry fieldColumnEntry) {
+		if (fieldColumnEntry.getColumnStyle() != null) {
+			cell.setCellStyle(fieldColumnEntry.getColumnStyle());
+		}
 	}
 }

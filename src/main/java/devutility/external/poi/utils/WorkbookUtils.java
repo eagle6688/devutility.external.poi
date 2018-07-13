@@ -2,6 +2,7 @@ package devutility.external.poi.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -49,29 +50,50 @@ public class WorkbookUtils {
 	}
 
 	/**
-	 * Clone then templated Sheet in templated Workbook, rename it with specific
-	 * sheet name, save list data into it.
-	 * @param templateWorkbook: Template Workbook object.
-	 * @param templateSheetName: Sheet name in template.
+	 * Save list data into specific sheet in template Workbook object.
+	 * @param templateInputStream: Template InputStream.
+	 * @param sheetName: Sheet name in template.
 	 * @param fieldColumnMap: FieldColumnMap object.
 	 * @param list: List data.
-	 * @param sheetName: New sheet name.
 	 * @return Workbook
-	 * @throws InvocationTargetException
-	 * @throws IllegalArgumentException
-	 * @throws IllegalAccessException
+	 * @throws Exception
 	 */
-	public static <T> Workbook save(Workbook templateWorkbook, String templateSheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, String sheetName)
-			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		int templateSheetIndex = templateWorkbook.getSheetIndex(templateSheetName);
+	public static <T> Workbook save(InputStream templateInputStream, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list) throws Exception {
+		Workbook templateWorkbook = WorkbookFactory.create(templateInputStream);
+		return save(templateWorkbook, sheetName, fieldColumnMap, list);
+	}
 
-		if (templateSheetIndex == -1) {
-			throw new NullPointerException(String.format("Sheet %s not found!", templateSheetName));
-		}
-
-		Sheet sheet = templateWorkbook.cloneSheet(templateSheetIndex);
-		SheetUtils.setName(templateWorkbook, sheet.getSheetName(), sheetName);
+	/**
+	 * Save list data into specific sheet in template Workbook object.
+	 * @param templateWorkbook: Template Workbook object.
+	 * @param sheetName: Sheet name in template.
+	 * @param fieldColumnMap: FieldColumnMap object.
+	 * @param list: List data.
+	 * @return Workbook
+	 * @throws Exception
+	 */
+	public static <T> Workbook save(Workbook templateWorkbook, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list) throws Exception {
+		Sheet sheet = SheetUtils.get(templateWorkbook, sheetName);
 		SheetUtils.append(sheet, fieldColumnMap, list);
 		return templateWorkbook;
+	}
+
+	/**
+	 * Create a new Workbook instance with specific ExcelType and sheet name, save
+	 * list data into it.
+	 * @param excelType: ExcelType object.
+	 * @param sheetName: Sheet name.
+	 * @param fieldColumnMap: FieldColumnMap object.
+	 * @param list: List data.
+	 * @return Workbook
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	public static <T> Workbook save(ExcelType excelType, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Workbook workbook = WorkbookUtils.create(excelType);
+		Sheet sheet = SheetUtils.create(workbook, sheetName);
+		SheetUtils.append(sheet, fieldColumnMap, list);
+		return workbook;
 	}
 }

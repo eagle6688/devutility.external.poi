@@ -79,19 +79,31 @@ public class SheetUtils {
 	 * @throws InvocationTargetException
 	 */
 	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		int rowNum = sheet.getLastRowNum();
+		int rowNum = sheet.getLastRowNum() + 1;
 		List<FieldColumnEntry> fieldColumnEntries = fieldColumnMap.getSortedEntries();
 
 		if (list instanceof LinkedList) {
 			for (T model : list) {
-				RowUtils.create(sheet, rowNum++, model, fieldColumnEntries);
+				Row row = RowUtils.create(sheet, rowNum++, model, fieldColumnEntries);
+				applyStyle(row, fieldColumnMap);
 			}
 
 			return;
 		}
 
 		for (int i = 0; i < list.size(); i++) {
-			RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries);
+			Row row = RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries);
+			applyStyle(row, fieldColumnMap);
+		}
+	}
+
+	public static void applyStyle(Row row, FieldColumnMap<?> fieldColumnMap) {
+		if (fieldColumnMap.getRowHeight() > 0) {
+			row.setHeightInPoints(fieldColumnMap.getRowHeight());
+		}
+
+		if (fieldColumnMap.getRowStyle() != null) {
+			row.setRowStyle(fieldColumnMap.getRowStyle());
 		}
 	}
 

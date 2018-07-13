@@ -62,9 +62,7 @@ public class PoiUtils {
 	 * @throws Exception
 	 */
 	public static <T> void save(InputStream templateInputStream, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, OutputStream outputStream) throws Exception {
-		Workbook workbook = WorkbookFactory.create(templateInputStream);
-		Sheet sheet = SheetUtils.get(workbook, sheetName);
-		SheetUtils.append(sheet, fieldColumnMap, list);
+		Workbook workbook = WorkbookUtils.save(templateInputStream, sheetName, fieldColumnMap, list);
 		workbook.write(outputStream);
 		workbook.close();
 	}
@@ -94,9 +92,7 @@ public class PoiUtils {
 	 * @throws Exception
 	 */
 	public static <T> void save(ExcelType excelType, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, OutputStream outputStream) throws Exception {
-		Workbook workbook = WorkbookUtils.create(excelType);
-		Sheet sheet = SheetUtils.create(workbook, sheetName);
-		SheetUtils.append(sheet, fieldColumnMap, list);
+		Workbook workbook = WorkbookUtils.save(excelType, sheetName, fieldColumnMap, list);
 		workbook.write(outputStream);
 		workbook.close();
 	}

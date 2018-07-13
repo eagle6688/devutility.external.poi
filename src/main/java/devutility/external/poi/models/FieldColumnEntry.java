@@ -1,11 +1,14 @@
 package devutility.external.poi.models;
 
+import org.apache.poi.ss.usermodel.CellStyle;
+
 import devutility.internal.lang.models.EntityField;
 
 public class FieldColumnEntry {
 	private int columnIndex;
 	private String modelField;
 	private EntityField entityField;
+	private CellStyle columnStyle;
 
 	public FieldColumnEntry() {
 	}
@@ -37,5 +40,13 @@ public class FieldColumnEntry {
 
 	public void setEntityField(EntityField entityField) {
 		this.entityField = entityField;
+	}
+
+	public CellStyle getColumnStyle() {
+		return columnStyle;
+	}
+
+	public void setColumnStyle(CellStyle columnStyle) {
+		this.columnStyle = columnStyle;
 	}
 }

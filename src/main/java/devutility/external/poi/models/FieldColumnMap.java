@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.CellStyle;
+
 import devutility.internal.lang.ClassHelper;
 import devutility.internal.lang.models.EntityField;
 import devutility.internal.util.CollectionUtils;
@@ -25,6 +27,16 @@ public class FieldColumnMap<T> {
 	 * EntityField objects for T.
 	 */
 	private List<EntityField> entityFields = new ArrayList<>();
+
+	/**
+	 * Row Style.
+	 */
+	private CellStyle rowStyle;
+
+	/**
+	 * Row height.
+	 */
+	private float rowHeight;
 
 	/**
 	 * Constructor
@@ -72,5 +84,21 @@ public class FieldColumnMap<T> {
 		List<FieldColumnEntry> list = getEntries();
 		list.sort(Comparator.comparingInt(FieldColumnEntry::getColumnIndex));
 		return list;
+	}
+
+	public CellStyle getRowStyle() {
+		return rowStyle;
+	}
+
+	public void setRowStyle(CellStyle rowStyle) {
+		this.rowStyle = rowStyle;
+	}
+
+	public float getRowHeight() {
+		return rowHeight;
+	}
+
+	public void setRowHeight(float rowHeight) {
+		this.rowHeight = rowHeight;
 	}
 }
