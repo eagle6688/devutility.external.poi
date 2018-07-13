@@ -1,8 +1,11 @@
 package devutility.external.poi.utils;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.ss.usermodel.Row;
 
 public class CellUtils {
 	/**
@@ -39,5 +42,63 @@ public class CellUtils {
 		default:
 			return dataFormatter.formatCellValue(cell);
 		}
+	}
+
+	public static Cell clone(Cell templateCell, Row row) {
+		if (templateCell == null) {
+			return null;
+		}
+
+		int cellNum = templateCell.getColumnIndex();
+		CellType cellType = templateCell.getCellTypeEnum();
+
+		Cell cell = row.createCell(cellNum);
+		cell.setCellComment(templateCell.getCellComment());
+		cell.setCellStyle(templateCell.getCellStyle());
+		cell.setCellType(cellType);
+
+		switch (cellType) {
+		case NUMERIC:
+			if (DateUtil.isCellDateFormatted(templateCell)) {
+				cell.setCellValue(templateCell.getDateCellValue());
+				break;
+			}
+
+			cell.setCellValue(templateCell.getNumericCellValue());
+			break;
+
+		case STRING:
+			String value = templateCell.getStringCellValue();
+
+			if (value != null) {
+				cell.setCellValue(templateCell.getStringCellValue());
+				break;
+			}
+
+			RichTextString richTextString = templateCell.getRichStringCellValue();
+
+			if (richTextString != null) {
+				cell.setCellValue(richTextString);
+			}
+
+			break;
+
+		case FORMULA:
+			cell.setCellFormula(templateCell.getCellFormula());
+			break;
+
+		case BOOLEAN:
+			cell.setCellValue(templateCell.getBooleanCellValue());
+			break;
+
+		case ERROR:
+			cell.setCellErrorValue(templateCell.getErrorCellValue());
+			break;
+
+		default:
+			break;
+		}
+
+		return cell;
 	}
 }

@@ -20,68 +20,83 @@ public class PoiUtils {
 	/**
 	 * Read data from file and convert data to List (Type T).
 	 * @param filePath: Excel file path.
-	 * @param sheet: Sheet name in excel file.
-	 * @param fieldColumnMap: The map between type T field and excel column.
+	 * @param sheetName: Sheet name in Excel file.
+	 * @param fieldColumnMap: The map between type T field and Excel column.
 	 * @param clazz: Class object.
 	 * @return {@code List<T>}
 	 * @throws Exception
 	 */
-	public static <T> List<T> read(String filePath, String sheet, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws Exception {
+	public static <T> List<T> read(String filePath, String sheetName, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws Exception {
 		Workbook workbook = WorkbookUtils.load(filePath);
-		Sheet sheetObj = SheetUtils.get(workbook, sheet);
-		List<T> list = SheetUtils.toList(sheetObj, fieldColumnMap, clazz);
+		Sheet sheet = SheetUtils.get(workbook, sheetName);
+		List<T> list = SheetUtils.toList(sheet, fieldColumnMap, clazz);
 		workbook.close();
 		return list;
 	}
 
 	/**
 	 * Read data from InputStream and convert data to List (Type T).
-	 * @param inputStream: InputStream for excel file.
-	 * @param sheet: Sheet name in excel file.
-	 * @param fieldColumnMap: The map between type T field and excel column.
+	 * @param inputStream: InputStream for Excel file.
+	 * @param sheetName: Sheet name in Excel file.
+	 * @param fieldColumnMap: The map between type T field and Excel column.
 	 * @param clazz: Class object.
 	 * @return {@code List<T>}
 	 * @throws Exception
 	 */
-	public static <T> List<T> read(InputStream inputStream, String sheet, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws Exception {
+	public static <T> List<T> read(InputStream inputStream, String sheetName, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws Exception {
 		Workbook workbook = WorkbookFactory.create(inputStream);
-		Sheet sheetObj = SheetUtils.get(workbook, sheet);
-		List<T> list = SheetUtils.toList(sheetObj, fieldColumnMap, clazz);
+		Sheet sheet = SheetUtils.get(workbook, sheetName);
+		List<T> list = SheetUtils.toList(sheet, fieldColumnMap, clazz);
 		workbook.close();
 		return list;
 	}
 
 	/**
-	 * Append list data into template excel file and save them into OutputStream
+	 * Append list data into template Excel file and save them into OutputStream
 	 * object.
 	 * @param templateInputStream: InputStream for template.
-	 * @param sheet: Sheet name need append.
+	 * @param sheetName: Sheet name in template and will in outputStream.
 	 * @param fieldColumnMap
 	 * @param list: List data.
 	 * @param outputStream: OutputStream object that receive list data.
 	 * @throws Exception
 	 */
-	public static <T> void save(InputStream templateInputStream, String sheet, FieldColumnMap<T> fieldColumnMap, List<T> list, OutputStream outputStream) throws Exception {
+	public static <T> void save(InputStream templateInputStream, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, OutputStream outputStream) throws Exception {
 		Workbook workbook = WorkbookFactory.create(templateInputStream);
-		Sheet sheetObj = SheetUtils.get(workbook, sheet);
-		SheetUtils.append(sheetObj, fieldColumnMap, list);
+		Sheet sheet = SheetUtils.get(workbook, sheetName);
+		SheetUtils.append(sheet, fieldColumnMap, list);
 		workbook.write(outputStream);
 		workbook.close();
 	}
 
 	/**
+	 * Create a new Excel file with specific template, sheet name and file path,
+	 * save list data into it.
+	 * @param templateInputStream: InputStream for template.
+	 * @param sheetName: Sheet name in template and will in output Excel file.
+	 * @param fieldColumnMap: FieldColumnMap object.
+	 * @param list: List data.
+	 * @param filePath: File path for new Excel file.
+	 * @throws Exception
+	 */
+	public static <T> void save(InputStream templateInputStream, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
+		FileOutputStream outputStream = createFileOutputStream(filePath);
+		save(templateInputStream, sheetName, fieldColumnMap, list, outputStream);
+	}
+
+	/**
 	 * Save the list data into specific OutputStream.
 	 * @param excelType: ExcelType object.
-	 * @param sheet: Sheet name.
+	 * @param sheetName: Sheet name in outputStream.
 	 * @param fieldColumnMap: FieldColumnMap object.
 	 * @param list: List data.
 	 * @param outputStream: OutputStream object that receive list data.
 	 * @throws Exception
 	 */
-	public static <T> void save(ExcelType excelType, String sheet, FieldColumnMap<T> fieldColumnMap, List<T> list, OutputStream outputStream) throws Exception {
+	public static <T> void save(ExcelType excelType, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, OutputStream outputStream) throws Exception {
 		Workbook workbook = WorkbookUtils.create(excelType);
-		Sheet sheetObj = SheetUtils.get(workbook, sheet);
-		SheetUtils.append(sheetObj, fieldColumnMap, list);
+		Sheet sheet = SheetUtils.create(workbook, sheetName);
+		SheetUtils.append(sheet, fieldColumnMap, list);
 		workbook.write(outputStream);
 		workbook.close();
 	}
@@ -95,52 +110,62 @@ public class PoiUtils {
 	 * @throws Exception
 	 */
 	public static <T> void save(ExcelType excelType, FieldColumnMap<T> fieldColumnMap, List<T> list, OutputStream outputStream) throws Exception {
-		String sheet = SheetUtils.getName(1);
-		save(excelType, sheet, fieldColumnMap, list, outputStream);
+		String sheetName = SheetUtils.getName(1);
+		save(excelType, sheetName, fieldColumnMap, list, outputStream);
 	}
 
 	/**
-	 * Create a new excel file with specific template, sheet name and file path,
-	 * save list data into it.
-	 * @param templateInputStream: InputStream for template.
-	 * @param sheet: Sheet name.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List data.
-	 * @param filePath: File path for new excel file.
-	 * @throws Exception
-	 */
-	public static <T> void save(InputStream templateInputStream, String sheet, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
-		FileOutputStream outputStream = createFileOutputStream(filePath);
-		save(templateInputStream, sheet, fieldColumnMap, list, outputStream);
-	}
-
-	/**
-	 * Create a new excel file with specific excelType, sheet name and file path,
+	 * Create a new Excel file with specific excelType, sheet name and file path,
 	 * save list data into it.
 	 * @param excelType: Excel type.
-	 * @param sheet: Sheet name.
+	 * @param sheetName: Sheet name.
 	 * @param fieldColumnMap: FieldColumnMap object.
 	 * @param list: List data.
-	 * @param filePath: File path for new excel file.
+	 * @param filePath: File path for new Excel file.
 	 * @throws Exception
 	 */
-	public static <T> void save(ExcelType excelType, String sheet, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
+	public static <T> void save(ExcelType excelType, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
 		FileOutputStream outputStream = createFileOutputStream(filePath);
-		save(excelType, sheet, fieldColumnMap, list, outputStream);
+		save(excelType, sheetName, fieldColumnMap, list, outputStream);
 	}
 
 	/**
-	 * Create a new excel file with specific excelType and file path, save list data
+	 * Create a new Excel file with specific excelType and file path, save list data
 	 * into it.
 	 * @param excelType: Excel type.
 	 * @param fieldColumnMap: FieldColumnMap object.
 	 * @param list: List data.
-	 * @param filePath: File path for new excel file.
+	 * @param filePath: File path for new Excel file.
 	 * @throws Exception
 	 */
 	public static <T> void save(ExcelType excelType, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
-		String sheet = SheetUtils.getName(1);
-		save(excelType, sheet, fieldColumnMap, list, filePath);
+		String sheetName = SheetUtils.getName(1);
+		save(excelType, sheetName, fieldColumnMap, list, filePath);
+	}
+
+	/**
+	 * Create a new Excel 2007 file with specific excelType, sheet name and file
+	 * path, save list data into it.
+	 * @param sheetName: Sheet name in Excel file.
+	 * @param fieldColumnMap: FieldColumnMap object.
+	 * @param list: List data.
+	 * @param filePath: File path for new Excel file.
+	 * @throws Exception
+	 */
+	public static <T> void save(String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
+		save(ExcelType.Excel2007, sheetName, fieldColumnMap, list, filePath);
+	}
+
+	/**
+	 * Create a new Excel 2007 file with specific excelType and file path, save list
+	 * data into it.
+	 * @param fieldColumnMap: FieldColumnMap object.
+	 * @param list: List data.
+	 * @param filePath: File path for new Excel file.
+	 * @throws Exception
+	 */
+	public static <T> void save(FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
+		save(ExcelType.Excel2007, fieldColumnMap, list, filePath);
 	}
 
 	/**

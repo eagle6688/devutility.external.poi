@@ -81,4 +81,21 @@ public class RowUtils {
 
 		return row;
 	}
+
+	public static <T> Row clone(Row templateRow, Sheet sheet) {
+		int rowNum = templateRow.getRowNum();
+		short firstCellNum = templateRow.getFirstCellNum();
+		short lastCellNum = templateRow.getLastCellNum();
+
+		Row row = sheet.createRow(rowNum);
+		row.setHeightInPoints(templateRow.getHeightInPoints());
+		row.setRowStyle(templateRow.getRowStyle());
+		row.setZeroHeight(templateRow.getZeroHeight());
+
+		for (short cellNum = firstCellNum; cellNum < lastCellNum; cellNum++) {
+			
+		}
+
+		return row;
+	}
 }
