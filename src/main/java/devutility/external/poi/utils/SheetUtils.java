@@ -69,34 +69,6 @@ public class SheetUtils {
 		workbook.setSheetName(sheetIndex, safeName);
 	}
 
-	public static <T> void save(Workbook templateWorkbook, String templateSheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, Workbook workbook, String sheetName) {
-		int templateSheetIndex = templateWorkbook.getSheetIndex(templateSheetName);
-
-		if (templateSheetIndex == -1) {
-			throw new NullPointerException(String.format("Sheet %s not found!", templateSheetName));
-		}
-
-		int sheetIndex = workbook.getSheetIndex(sheetName);
-
-		if (sheetIndex == -1) {
-
-		}
-	}
-
-	/**
-	 * Copy the format of specific templateSheet to sheet, save the list data into
-	 * specific sheet.
-	 * @param templateSheet: Sheet template.
-	 * @param sheet: Sheet object.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List data.
-	 * @return Sheet
-	 */
-	public static <T> Sheet save(Sheet templateSheet, Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) {
-
-		return sheet;
-	}
-
 	/**
 	 * Append list to existed Sheet object.
 	 * @param sheet: Sheet object.

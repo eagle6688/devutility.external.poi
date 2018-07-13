@@ -44,6 +44,12 @@ public class CellUtils {
 		}
 	}
 
+	/**
+	 * Clone a cell by template, add it into row.
+	 * @param templateCell:Template Cell object.
+	 * @param row: Row object.
+	 * @return Cell
+	 */
 	public static Cell clone(Cell templateCell, Row row) {
 		if (templateCell == null) {
 			return null;
