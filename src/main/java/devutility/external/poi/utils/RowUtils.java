@@ -5,12 +5,14 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import devutility.external.poi.models.FieldColumnEntry;
 import devutility.external.poi.models.FieldColumnMap;
+import devutility.external.poi.models.RowStyle;
 import devutility.internal.lang.ClassHelper;
 import devutility.internal.lang.models.EntityField;
 
@@ -77,16 +79,47 @@ public class RowUtils {
 			if (value != null) {
 				Cell cell = row.createCell(entry.getColumnIndex());
 				cell.setCellValue(value.toString());
-				applyStyle(cell, entry);
 			}
 		}
 
 		return row;
 	}
 
-	public static void applyStyle(Cell cell, FieldColumnEntry fieldColumnEntry) {
-		if (fieldColumnEntry.getColumnStyle() != null) {
-			cell.setCellStyle(fieldColumnEntry.getColumnStyle());
+	/**
+	 * Create a new Row in specific Sheet.
+	 * @param workbook: Workbook object.
+	 * @param model: Model object.
+	 * @param fieldColumnEntries: FieldColumnEntry list for type T.
+	 * @param rowStyle: Style for whole row.
+	 * @return Row
+	 * @throws InvocationTargetException
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
+	public static <T> Row create(Sheet sheet, int rowNum, T model, List<FieldColumnEntry> fieldColumnEntries, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Row row = sheet.createRow(rowNum);
+
+		for (FieldColumnEntry entry : fieldColumnEntries) {
+			Method getter = entry.getEntityField().getGetter();
+
+			if (getter == null) {
+				continue;
+			}
+
+			Object value = getter.invoke(model);
+
+			if (value != null) {
+				Cell cell = row.createCell(entry.getColumnIndex());
+				cell.setCellValue(value.toString());
+
+				CellStyle cellStyle = rowStyle.getColumnStyle(entry.getColumnIndex());
+
+				if (cellStyle != null) {
+					cell.setCellStyle(cellStyle);
+				}
+			}
 		}
+
+		return row;
 	}
 }

@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import devutility.external.poi.common.ExcelType;
 import devutility.external.poi.models.FieldColumnMap;
+import devutility.external.poi.models.RowStyle;
 
 public class WorkbookUtils {
 	/**
@@ -55,12 +56,13 @@ public class WorkbookUtils {
 	 * @param sheetName: Sheet name in template.
 	 * @param fieldColumnMap: FieldColumnMap object.
 	 * @param list: List data.
+	 * @param rowStyle: Style for row.
 	 * @return Workbook
 	 * @throws Exception
 	 */
-	public static <T> Workbook save(InputStream templateInputStream, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list) throws Exception {
+	public static <T> Workbook save(InputStream templateInputStream, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, RowStyle rowStyle) throws Exception {
 		Workbook templateWorkbook = WorkbookFactory.create(templateInputStream);
-		return save(templateWorkbook, sheetName, fieldColumnMap, list);
+		return save(templateWorkbook, sheetName, fieldColumnMap, list, rowStyle);
 	}
 
 	/**
@@ -69,12 +71,19 @@ public class WorkbookUtils {
 	 * @param sheetName: Sheet name in template.
 	 * @param fieldColumnMap: FieldColumnMap object.
 	 * @param list: List data.
+	 * @param rowStyle: Style for row.
 	 * @return Workbook
 	 * @throws Exception
 	 */
-	public static <T> Workbook save(Workbook templateWorkbook, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list) throws Exception {
+	public static <T> Workbook save(Workbook templateWorkbook, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, RowStyle rowStyle) throws Exception {
 		Sheet sheet = SheetUtils.get(templateWorkbook, sheetName);
-		SheetUtils.append(sheet, fieldColumnMap, list);
+
+		if (rowStyle == null) {
+			SheetUtils.append(sheet, fieldColumnMap, list);
+		} else {
+			SheetUtils.append(sheet, fieldColumnMap, list, rowStyle);
+		}
+
 		return templateWorkbook;
 	}
 

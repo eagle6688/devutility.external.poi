@@ -13,6 +13,7 @@ import org.apache.poi.ss.util.WorkbookUtil;
 import devutility.external.poi.common.ExcelConfig;
 import devutility.external.poi.models.FieldColumnEntry;
 import devutility.external.poi.models.FieldColumnMap;
+import devutility.external.poi.models.RowStyle;
 
 public class SheetUtils {
 	/**
@@ -84,8 +85,35 @@ public class SheetUtils {
 
 		if (list instanceof LinkedList) {
 			for (T model : list) {
+				RowUtils.create(sheet, rowNum++, model, fieldColumnEntries);
+			}
+
+			return;
+		}
+
+		for (int i = 0; i < list.size(); i++) {
+			RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries);
+		}
+	}
+
+	/**
+	 * Append list to existed Sheet object.
+	 * @param sheet: Sheet object.
+	 * @param fieldColumnMap: FieldColumnMap object.
+	 * @param list: List object.
+	 * @param rowStyle: Style for each row.
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
+	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		int rowNum = sheet.getLastRowNum() + 1;
+		List<FieldColumnEntry> fieldColumnEntries = fieldColumnMap.getSortedEntries();
+
+		if (list instanceof LinkedList) {
+			for (T model : list) {
 				Row row = RowUtils.create(sheet, rowNum++, model, fieldColumnEntries);
-				applyStyle(row, fieldColumnMap);
+				applyStyle(row, rowStyle);
 			}
 
 			return;
@@ -93,17 +121,17 @@ public class SheetUtils {
 
 		for (int i = 0; i < list.size(); i++) {
 			Row row = RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries);
-			applyStyle(row, fieldColumnMap);
+			applyStyle(row, rowStyle);
 		}
 	}
 
-	public static void applyStyle(Row row, FieldColumnMap<?> fieldColumnMap) {
-		if (fieldColumnMap.getRowHeight() > 0) {
-			row.setHeightInPoints(fieldColumnMap.getRowHeight());
+	public static void applyStyle(Row row, RowStyle rowStyle) {
+		if (rowStyle.getRowHeight() > 0) {
+			row.setHeightInPoints(rowStyle.getRowHeight());
 		}
 
-		if (fieldColumnMap.getRowStyle() != null) {
-			row.setRowStyle(fieldColumnMap.getRowStyle());
+		if (rowStyle.getRowStyle() != null) {
+			row.setRowStyle(rowStyle.getRowStyle());
 		}
 	}
 
