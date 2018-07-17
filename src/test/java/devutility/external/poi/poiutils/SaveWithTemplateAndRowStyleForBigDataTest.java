@@ -28,7 +28,7 @@ public class SaveWithTemplateAndRowStyleForBigDataTest extends BaseTest {
 
 		try {
 			Workbook workbook = WorkbookFactory.create(templateInputStream);
-			RowStyle rowStyle = RowStyleUtils.clone(workbook, "Sheet1", 0, true);
+			RowStyle rowStyle = RowStyleUtils.clone(workbook, "Sheet1", 0, true, 12);
 			PoiUtils.save(workbook, "Sheet1", fieldColumnMap, list, rowStyle, filePath);
 			workbook.close();
 		} catch (Exception e) {

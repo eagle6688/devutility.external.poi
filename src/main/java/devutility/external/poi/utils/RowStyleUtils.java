@@ -13,13 +13,23 @@ import org.apache.poi.ss.usermodel.Workbook;
 import devutility.external.poi.models.RowStyle;
 
 public class RowStyleUtils {
-	public static RowStyle clone(Workbook workbook, String sheetName, int rowNum, boolean excludeBold) throws Exception {
+	public static RowStyle clone(Workbook workbook, String sheetName, int rowNum, boolean excludeBold, short fontSize) throws Exception {
 		Sheet sheet = SheetUtils.get(workbook, sheetName);
 		Row row = sheet.getRow(rowNum);
-		return clone(workbook, row, excludeBold);
+		RowStyle rowStyle = clone(workbook, row);
+		customize(workbook, rowStyle, excludeBold, fontSize);
+		return rowStyle;
 	}
 
-	public static RowStyle clone(Workbook workbook, Row row, boolean excludeBold) {
+	public static RowStyle clone(Workbook workbook, String sheetName, int rowNum, boolean excludeBold, int fontSize) throws Exception {
+		return clone(workbook, sheetName, rowNum, excludeBold, (short) fontSize);
+	}
+
+	public static RowStyle clone(Workbook workbook, String sheetName, int rowNum, boolean excludeBold) throws Exception {
+		return clone(workbook, sheetName, rowNum, excludeBold, (short) 0);
+	}
+
+	public static RowStyle clone(Workbook workbook, Row row) {
 		short firstCellNum = row.getFirstCellNum();
 		short lastCellNum = row.getLastCellNum();
 
@@ -54,11 +64,6 @@ public class RowStyleUtils {
 
 			CellStyle newCellStyle = createCellStyle(workbook, columnStyleIndexMap, cellStyle);
 			Font newFont = createFont(workbook, columnfontIndexMap, cellStyle);
-
-			if (excludeBold) {
-				newFont.setBold(false);
-			}
-
 			newCellStyle.setFont(newFont);
 			columnStyleMap.put(cellNum, newCellStyle);
 		}
@@ -69,6 +74,31 @@ public class RowStyleUtils {
 		rowStyle.setRowStyle(row.getRowStyle());
 		rowStyle.setColumnStyleMap(columnStyleMap);
 		return rowStyle;
+	}
+
+	public static RowStyle customize(Workbook workbook, RowStyle rowStyle, boolean excludeBold, short fontSize) {
+		Map<Integer, CellStyle> columnStyleMap = rowStyle.getColumnStyleMap();
+
+		for (CellStyle cellStyle : columnStyleMap.values()) {
+			short fontIndex = cellStyle.getFontIndex();
+			Font font = workbook.getFontAt(fontIndex);
+
+			if (font != null) {
+				customizeFont(font, excludeBold, fontSize);
+			}
+		}
+
+		return rowStyle;
+	}
+
+	private static void customizeFont(Font font, boolean excludeBold, short fontSize) {
+		if (excludeBold) {
+			font.setBold(false);
+		}
+
+		if (fontSize > 0) {
+			font.setFontHeightInPoints(fontSize);
+		}
 	}
 
 	private static CellStyle createCellStyle(Workbook workbook, Map<Short, Short> columnStyleIndexMap, CellStyle cellStyle) {
