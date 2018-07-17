@@ -58,7 +58,6 @@ public class FontUtils {
 		newFont.setBold(font.getBold());
 		newFont.setCharSet(font.getCharSet());
 		newFont.setColor(font.getColor());
-		newFont.setFontHeight(font.getFontHeight());
 		newFont.setFontHeightInPoints(font.getFontHeightInPoints());
 		newFont.setFontName(font.getFontName());
 		newFont.setItalic(font.getItalic());

@@ -112,26 +112,14 @@ public class SheetUtils {
 
 		if (list instanceof LinkedList) {
 			for (T model : list) {
-				Row row = RowUtils.create(sheet, rowNum++, model, fieldColumnEntries);
-				applyStyle(row, rowStyle);
+				RowUtils.create(sheet, rowNum++, model, fieldColumnEntries, rowStyle);
 			}
 
 			return;
 		}
 
 		for (int i = 0; i < list.size(); i++) {
-			Row row = RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries);
-			applyStyle(row, rowStyle);
-		}
-	}
-
-	public static void applyStyle(Row row, RowStyle rowStyle) {
-		if (rowStyle.getRowHeight() > 0) {
-			row.setHeightInPoints(rowStyle.getRowHeight());
-		}
-
-		if (rowStyle.getRowStyle() != null) {
-			row.setRowStyle(rowStyle.getRowStyle());
+			RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries, rowStyle);
 		}
 	}
 

@@ -120,6 +120,17 @@ public class RowUtils {
 			}
 		}
 
+		applyStyle(row, rowStyle);
 		return row;
+	}
+
+	public static void applyStyle(Row row, RowStyle rowStyle) {
+		if (rowStyle.getRowHeight() > 0) {
+			row.setHeightInPoints(rowStyle.getRowHeight());
+		}
+
+		if (rowStyle.getRowStyle() != null) {
+			row.setRowStyle(rowStyle.getRowStyle());
+		}
 	}
 }
