@@ -58,7 +58,7 @@ public class FieldColumnMap<T> {
 
 	/**
 	 * Return all entries in map container.
-	 * @return List<FieldColumnEntry>
+	 * @return {@code List<FieldColumnEntry>}
 	 */
 	public List<FieldColumnEntry> getEntries() {
 		return new ArrayList<FieldColumnEntry>(map.values());
@@ -66,7 +66,7 @@ public class FieldColumnMap<T> {
 
 	/**
 	 * Return all sorted entries in map container.
-	 * @return List<FieldColumnEntry>
+	 * @return {@code List<FieldColumnEntry>}
 	 */
 	public List<FieldColumnEntry> getSortedEntries() {
 		List<FieldColumnEntry> list = getEntries();

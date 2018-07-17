@@ -56,13 +56,14 @@ public class RowUtils {
 
 	/**
 	 * Create a new Row in specific Sheet.
-	 * @param workbook: Workbook object.
+	 * @param sheet: Sheet object.
+	 * @param rowNum: Row number.
 	 * @param model: Model object.
 	 * @param fieldColumnEntries: FieldColumnEntry list for type T.
 	 * @return Row
-	 * @throws InvocationTargetException
-	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
 	 */
 	public static <T> Row create(Sheet sheet, int rowNum, T model, List<FieldColumnEntry> fieldColumnEntries) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Row row = sheet.createRow(rowNum);
@@ -87,14 +88,15 @@ public class RowUtils {
 
 	/**
 	 * Create a new Row in specific Sheet.
-	 * @param workbook: Workbook object.
+	 * @param sheet: Sheet object.
+	 * @param rowNum: Row number.
 	 * @param model: Model object.
 	 * @param fieldColumnEntries: FieldColumnEntry list for type T.
 	 * @param rowStyle: Style for whole row.
 	 * @return Row
-	 * @throws InvocationTargetException
-	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
 	 */
 	public static <T> Row create(Sheet sheet, int rowNum, T model, List<FieldColumnEntry> fieldColumnEntries, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Row row = sheet.createRow(rowNum);
