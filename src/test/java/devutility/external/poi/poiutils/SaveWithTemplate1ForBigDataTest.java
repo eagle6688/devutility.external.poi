@@ -9,15 +9,15 @@ import devutility.external.poi.models.FieldColumnMap;
 import devutility.internal.test.BaseTest;
 import devutility.internal.test.TestExecutor;
 
-public class SaveWithTemplateForBigDataTest extends BaseTest {
+public class SaveWithTemplate1ForBigDataTest extends BaseTest {
 	@Override
 	public void run() {
-		processExcel2007(100000);
+		processExcel2007(10000);
 	}
 
 	private void processExcel2007(int listCount) {
-		String filePath = "E:\\Downloads\\SaveWithTemplateForBigDataTest.xlsx";
-		InputStream templateInputStream = SaveWithTemplateTest.class.getClassLoader().getResourceAsStream("Test.xlsx");
+		String filePath = "E:\\Downloads\\SaveWithTemplate1ForBigDataTest.xlsx";
+		InputStream templateInputStream = SaveWithTemplateTest.class.getClassLoader().getResourceAsStream("Test1.xlsx");
 		FieldColumnMap<ExcelModel> fieldColumnMap = ExcelModel.getFieldColumnMap();
 		List<ExcelModel> list = ExcelModel.create(listCount);
 
@@ -29,6 +29,6 @@ public class SaveWithTemplateForBigDataTest extends BaseTest {
 	}
 
 	public static void main(String[] args) {
-		TestExecutor.run(SaveWithTemplateForBigDataTest.class);
+		TestExecutor.run(SaveWithTemplate1ForBigDataTest.class);
 	}
 }

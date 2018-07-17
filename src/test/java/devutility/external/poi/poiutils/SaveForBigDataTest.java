@@ -11,9 +11,9 @@ import devutility.internal.test.TestExecutor;
 public class SaveForBigDataTest extends BaseTest {
 	@Override
 	public void run() {
-		String filePath = "E:\\Downloads\\Test.xlsx";
-		FieldColumnMap<ExcelModel> fieldColumnMap = ExcelModel.getFieldColumnMap();
 		List<ExcelModel> list = ExcelModel.create(100000);
+		String filePath = "E:\\Downloads\\SaveForBigDataTest.xlsx";
+		FieldColumnMap<ExcelModel> fieldColumnMap = ExcelModel.getFieldColumnMap();
 
 		try {
 			PoiUtils.save(fieldColumnMap, list, filePath);

@@ -1,5 +1,6 @@
 package devutility.external.poi.utils;
 
+import devutility.external.poi.common.ExcelType;
 import devutility.internal.io.FileUtils;
 
 public class ExcelUtils {
@@ -21,5 +22,18 @@ public class ExcelUtils {
 	public static boolean isXlsx(String fileName) {
 		String extension = FileUtils.getFileExtension(fileName).toLowerCase();
 		return ".xlsx".equals(extension);
+	}
+
+	/**
+	 * Get ExcelType by file name.
+	 * @param fileName: File name.
+	 * @return ExcelType
+	 */
+	public static ExcelType getExcelType(String fileName) {
+		if (isXlsx(fileName)) {
+			return ExcelType.Excel2007;
+		}
+
+		return ExcelType.Excel2003;
 	}
 }

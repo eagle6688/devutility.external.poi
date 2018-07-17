@@ -80,7 +80,7 @@ public class SheetUtils {
 	 * @throws InvocationTargetException
 	 */
 	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		int rowNum = sheet.getLastRowNum() + 1;
+		int rowNum = getStartRowNum(sheet);
 		List<FieldColumnEntry> fieldColumnEntries = fieldColumnMap.getSortedEntries();
 
 		if (list instanceof LinkedList) {
@@ -107,7 +107,7 @@ public class SheetUtils {
 	 * @throws InvocationTargetException
 	 */
 	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		int rowNum = sheet.getLastRowNum() + 1;
+		int rowNum = getStartRowNum(sheet);
 		List<FieldColumnEntry> fieldColumnEntries = fieldColumnMap.getSortedEntries();
 
 		if (list instanceof LinkedList) {
@@ -121,6 +121,18 @@ public class SheetUtils {
 		for (int i = 0; i < list.size(); i++) {
 			RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries, rowStyle);
 		}
+	}
+
+	public static int getStartRowNum(Sheet sheet) {
+		int lastRowNum = sheet.getLastRowNum();
+		Row row = sheet.getRow(lastRowNum);
+		short firstCellNum = row.getFirstCellNum();
+
+		if (firstCellNum > -1) {
+			return lastRowNum + 1;
+		}
+
+		return lastRowNum;
 	}
 
 	/**

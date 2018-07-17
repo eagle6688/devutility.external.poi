@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import devutility.external.poi.common.ExcelType;
 import devutility.external.poi.models.FieldColumnMap;
 import devutility.external.poi.models.RowStyle;
+import devutility.external.poi.utils.ExcelUtils;
 import devutility.external.poi.utils.SheetUtils;
 import devutility.external.poi.utils.WorkbookUtils;
 
@@ -144,55 +145,29 @@ public class PoiUtils {
 	/**
 	 * Create a new Excel file with specific excelType, sheet name and file path,
 	 * save list data into it.
-	 * @param excelType: Excel type.
 	 * @param sheetName: Sheet name.
 	 * @param fieldColumnMap: FieldColumnMap object.
 	 * @param list: List data.
 	 * @param filePath: File path for new Excel file.
 	 * @throws Exception
 	 */
-	public static <T> void save(ExcelType excelType, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
+	public static <T> void save(String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
 		FileOutputStream outputStream = createFileOutputStream(filePath);
+		ExcelType excelType = ExcelUtils.getExcelType(filePath);
 		save(excelType, sheetName, fieldColumnMap, list, outputStream);
 	}
 
 	/**
 	 * Create a new Excel file with specific excelType and file path, save list data
 	 * into it.
-	 * @param excelType: Excel type.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List data.
-	 * @param filePath: File path for new Excel file.
-	 * @throws Exception
-	 */
-	public static <T> void save(ExcelType excelType, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
-		String sheetName = SheetUtils.getName(1);
-		save(excelType, sheetName, fieldColumnMap, list, filePath);
-	}
-
-	/**
-	 * Create a new Excel 2007 file with specific excelType, sheet name and file
-	 * path, save list data into it.
-	 * @param sheetName: Sheet name in Excel file.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List data.
-	 * @param filePath: File path for new Excel file.
-	 * @throws Exception
-	 */
-	public static <T> void save(String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
-		save(ExcelType.Excel2007, sheetName, fieldColumnMap, list, filePath);
-	}
-
-	/**
-	 * Create a new Excel 2007 file with specific excelType and file path, save list
-	 * data into it.
 	 * @param fieldColumnMap: FieldColumnMap object.
 	 * @param list: List data.
 	 * @param filePath: File path for new Excel file.
 	 * @throws Exception
 	 */
 	public static <T> void save(FieldColumnMap<T> fieldColumnMap, List<T> list, String filePath) throws Exception {
-		save(ExcelType.Excel2007, fieldColumnMap, list, filePath);
+		String sheetName = SheetUtils.getName(1);
+		save(sheetName, fieldColumnMap, list, filePath);
 	}
 
 	/**
