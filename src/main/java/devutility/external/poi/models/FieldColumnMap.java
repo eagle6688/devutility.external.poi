@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import devutility.internal.lang.ClassHelper;
+import devutility.internal.lang.ClassUtils;
 import devutility.internal.lang.models.EntityField;
 import devutility.internal.util.CollectionUtils;
 
@@ -31,7 +31,7 @@ public class FieldColumnMap<T> {
 	 */
 	public FieldColumnMap(Class<T> clazz) {
 		this.clazz = clazz;
-		entityFields = ClassHelper.getEntityFields(this.clazz);
+		entityFields = ClassUtils.getEntityFields(this.clazz);
 	}
 
 	/**

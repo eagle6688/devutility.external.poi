@@ -13,7 +13,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import devutility.external.poi.models.FieldColumnEntry;
 import devutility.external.poi.models.FieldColumnMap;
 import devutility.external.poi.models.RowStyle;
-import devutility.internal.lang.ClassHelper;
+import devutility.internal.lang.ClassUtils;
 import devutility.internal.lang.models.EntityField;
 
 public class RowUtils {
@@ -27,7 +27,7 @@ public class RowUtils {
 	 * @throws ReflectiveOperationException
 	 */
 	public static <T> T toModel(Row row, DataFormatter dataFormatter, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
-		T model = ClassHelper.newInstance(clazz);
+		T model = ClassUtils.newInstance(clazz);
 
 		for (FieldColumnEntry entry : fieldColumnMap.getEntries()) {
 			EntityField entityField = entry.getEntityField();

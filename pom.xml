@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.eagle6688</groupId>
 	<artifactId>devutility.external.poi</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 	<name>devutility.external.poi</name>
 	<description>Some utilities for Apache POI version 3.*</description>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>com.github.eagle6688</groupId>
 			<artifactId>devutility.internal</artifactId>
-			<version>1.1.15</version>
+			<version>1.2.6</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- devutility end -->
