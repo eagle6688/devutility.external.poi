@@ -123,9 +123,19 @@ public class SheetUtils {
 		}
 	}
 
+	/**
+	 * Return start row number.
+	 * @param sheet Sheet object.
+	 * @return int
+	 */
 	public static int getStartRowNum(Sheet sheet) {
 		int lastRowNum = sheet.getLastRowNum();
 		Row row = sheet.getRow(lastRowNum);
+
+		if (lastRowNum == 0 && row == null) {
+			return 0;
+		}
+
 		short firstCellNum = row.getFirstCellNum();
 
 		if (firstCellNum > -1) {
