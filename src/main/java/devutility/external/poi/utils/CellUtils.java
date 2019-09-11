@@ -47,6 +47,12 @@ public class CellUtils {
 		}
 	}
 
+	/**
+	 * Get cell's value.
+	 * @param cell Cell object.
+	 * @param clazz Class object for field.
+	 * @return {@code T}
+	 */
 	public static <T> T getValue(Cell cell, Class<T> clazz) {
 		Object value = CellUtils.getValue(cell);
 
@@ -59,7 +65,7 @@ public class CellUtils {
 		if (value instanceof Double) {
 			Double doubleValue = (Double) value;
 			BigDecimal bigDecimalValue = new BigDecimal(doubleValue);
-			str = String.valueOf(bigDecimalValue);
+			str = bigDecimalValue.toPlainString();
 		}
 
 		return ConverterUtils.stringToType(str, clazz);
