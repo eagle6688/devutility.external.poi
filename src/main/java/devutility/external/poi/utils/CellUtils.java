@@ -1,5 +1,7 @@
 package devutility.external.poi.utils;
 
+import java.math.BigDecimal;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -7,7 +9,62 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
 
+import devutility.internal.data.converter.ConverterUtils;
+
 public class CellUtils {
+	/**
+	 * Get cell's value.
+	 * @param cell Cell object.
+	 * @return Object
+	 */
+	public static Object getValue(Cell cell) {
+		if (cell == null) {
+			return null;
+		}
+
+		switch (cell.getCellTypeEnum()) {
+		case STRING:
+			return cell.getStringCellValue();
+
+		case NUMERIC:
+			if (DateUtil.isCellDateFormatted(cell)) {
+				return cell.getDateCellValue();
+			}
+
+			return cell.getNumericCellValue();
+
+		case BOOLEAN:
+			return cell.getBooleanCellValue();
+
+		case FORMULA:
+			return cell.getCellFormula();
+
+		case BLANK:
+			return null;
+
+		default:
+			return cell;
+		}
+	}
+
+	public static <T> T getValue(Cell cell, Class<T> clazz) {
+		Object value = CellUtils.getValue(cell);
+
+		if (value == null || value instanceof Cell) {
+			return null;
+		}
+
+		String str = String.valueOf(value);
+
+		if (value instanceof Double) {
+			Double doubleValue = (Double) value;
+			BigDecimal bigDecimalValue = new BigDecimal(doubleValue);
+			str = String.valueOf(bigDecimalValue);
+		}
+
+		return ConverterUtils.stringToType(str, clazz);
+	}
+
 	/**
 	 * Get cell's value.
 	 * @param cell: Cell object.

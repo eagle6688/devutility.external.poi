@@ -19,6 +19,42 @@ import devutility.internal.lang.models.EntityField;
 public class RowUtils {
 	/**
 	 * Convert row to T type model.
+	 * @param row Row object.
+	 * @param fieldColumnMap FieldColumnMap object.
+	 * @param clazz Class object.
+	 * @return {@code T}
+	 * @throws ReflectiveOperationException
+	 */
+	public static <T> T toModel(Row row, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
+		T model = ClassUtils.newInstance(clazz);
+
+		for (FieldColumnEntry entry : fieldColumnMap.getEntries()) {
+			EntityField entityField = entry.getEntityField();
+
+			if (entityField == null) {
+				continue;
+			}
+
+			Method setter = entityField.getSetter();
+
+			if (setter == null) {
+				continue;
+			}
+
+			int columnIndex = entry.getColumnIndex();
+			Cell cell = row.getCell(columnIndex);
+			Object value = CellUtils.getValue(cell, entityField.fieldType());
+
+			if (value != null) {
+				setter.invoke(model, value);
+			}
+		}
+
+		return model;
+	}
+
+	/**
+	 * Convert row to T type model.
 	 * @param row: Row object.
 	 * @param dataFormatter: DataFormatter object.
 	 * @param fieldColumnMap: FieldColumnMap object.
@@ -126,6 +162,11 @@ public class RowUtils {
 		return row;
 	}
 
+	/**
+	 * Apply provided style to provided row.
+	 * @param row Row object
+	 * @param rowStyle RowStyle object.
+	 */
 	public static void applyStyle(Row row, RowStyle rowStyle) {
 		if (rowStyle.getRowHeight() > 0) {
 			row.setHeightInPoints(rowStyle.getRowHeight());

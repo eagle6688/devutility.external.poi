@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -160,7 +159,6 @@ public class SheetUtils {
 			return list;
 		}
 
-		DataFormatter dataFormatter = new DataFormatter();
 		int rowStart = sheet.getFirstRowNum();
 		int rowEnd = sheet.getLastRowNum() + 1;
 
@@ -171,7 +169,7 @@ public class SheetUtils {
 				continue;
 			}
 
-			T model = RowUtils.toModel(row, dataFormatter, fieldColumnMap, clazz);
+			T model = RowUtils.toModel(row, fieldColumnMap, clazz);
 
 			if (model != null) {
 				list.add(model);
