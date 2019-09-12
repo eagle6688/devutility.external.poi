@@ -5,7 +5,6 @@ import java.util.List;
 
 import devutility.external.poi.PoiUtils;
 import devutility.external.poi.models.ExcelModel;
-import devutility.external.poi.models.FieldColumnMap;
 import devutility.internal.test.BaseTest;
 import devutility.internal.test.TestExecutor;
 
@@ -18,11 +17,10 @@ public class SaveWithTemplate1ForBigDataTest extends BaseTest {
 	private void processExcel2007(int listCount) {
 		String filePath = "E:\\Downloads\\SaveWithTemplate1ForBigDataTest.xlsx";
 		InputStream templateInputStream = SaveWithTemplateTest.class.getClassLoader().getResourceAsStream("Test1.xlsx");
-		FieldColumnMap<ExcelModel> fieldColumnMap = ExcelModel.getFieldColumnMap();
 		List<ExcelModel> list = ExcelModel.create(listCount);
 
 		try {
-			PoiUtils.save(templateInputStream, "Sheet1", fieldColumnMap, list, filePath);
+			PoiUtils.save(templateInputStream, "Sheet1", list, filePath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

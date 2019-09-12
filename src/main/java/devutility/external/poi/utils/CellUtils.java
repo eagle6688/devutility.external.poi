@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.RichTextString;
 import org.apache.poi.ss.usermodel.Row;
@@ -69,42 +68,6 @@ public class CellUtils {
 		}
 
 		return ConverterUtils.stringToType(str, clazz);
-	}
-
-	/**
-	 * Get cell's value.
-	 * @param cell: Cell object.
-	 * @param dataFormatter: DataFormatter object.
-	 * @return Object
-	 */
-	public static Object getValue(Cell cell, DataFormatter dataFormatter) {
-		if (cell == null) {
-			return null;
-		}
-
-		switch (cell.getCellTypeEnum()) {
-		case STRING:
-			return cell.getRichStringCellValue().getString();
-
-		case NUMERIC:
-			if (DateUtil.isCellDateFormatted(cell)) {
-				return cell.getDateCellValue();
-			} else {
-				return cell.getNumericCellValue();
-			}
-
-		case BOOLEAN:
-			return cell.getBooleanCellValue();
-
-		case FORMULA:
-			return cell.getCellFormula();
-
-		case BLANK:
-			return null;
-
-		default:
-			return dataFormatter.formatCellValue(cell);
-		}
 	}
 
 	/**

@@ -2,6 +2,13 @@ package devutility.external.poi.common;
 
 import devutility.external.poi.models.ExcelProperties;
 
+/**
+ * 
+ * ExcelConfig
+ * 
+ * @author: Aldwin Su
+ * @version: 2019-09-12 18:52:17
+ */
 public class ExcelConfig {
 	/**
 	 * ExcelProperties for version before 2007.

@@ -3,10 +3,19 @@ package devutility.external.poi.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import devutility.external.poi.common.ExcelColumn;
+
 public class ExcelModel {
+	@ExcelColumn(index = 0)
 	private String first;
+
+	@ExcelColumn(index = 2)
 	private String second;
+
+	@ExcelColumn(index = 1)
 	private String third;
+
+	@ExcelColumn(index = 3)
 	private String fourth;
 
 	public ExcelModel() {
@@ -38,15 +47,6 @@ public class ExcelModel {
 		}
 
 		return list;
-	}
-
-	public static FieldColumnMap<ExcelModel> getFieldColumnMap() {
-		FieldColumnMap<ExcelModel> fieldColumnMap = new FieldColumnMap<>(ExcelModel.class);
-		fieldColumnMap.put(0, "first");
-		fieldColumnMap.put(1, "second");
-		fieldColumnMap.put(2, "third");
-		fieldColumnMap.put(3, "fourth");
-		return fieldColumnMap;
 	}
 
 	public String getFirst() {

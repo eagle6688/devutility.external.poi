@@ -1,7 +1,5 @@
 package devutility.external.poi.poiutils.truscale;
 
-import devutility.external.poi.models.FieldColumnMap;
-
 public class ContractVo {
 	private String number;
 	private String description;
@@ -28,28 +26,6 @@ public class ContractVo {
 	private String langugaeCode;
 	private String geo;
 	private String industry;
-
-	public static FieldColumnMap<ContractVo> getFieldColumnMap() {
-		FieldColumnMap<ContractVo> fieldColumnMap = new FieldColumnMap<>(ContractVo.class);
-		fieldColumnMap.put(0, "number");
-		fieldColumnMap.put(1, "description");
-		fieldColumnMap.put(2, "type");
-		fieldColumnMap.put(3, "startDate");
-		fieldColumnMap.put(4, "endDate");
-		fieldColumnMap.put(5, "countryCode");
-		fieldColumnMap.put(6, "currencyId");
-		fieldColumnMap.put(7, "poNumber");
-		fieldColumnMap.put(8, "state");
-		fieldColumnMap.put(9, "billingFrequency");
-		fieldColumnMap.put(10, "billingDay");
-		fieldColumnMap.put(11, "buyingCustomerId");
-		fieldColumnMap.put(12, "buyingCustomerContactId");
-		fieldColumnMap.put(13, "billtoCustomerId");
-		fieldColumnMap.put(14, "payerCustomerId");
-		fieldColumnMap.put(15, "endCustomerId");
-		fieldColumnMap.put(16, "endCustomerContactId");
-		return fieldColumnMap;
-	}
 
 	public String getNumber() {
 		return number;

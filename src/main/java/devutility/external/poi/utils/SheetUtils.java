@@ -10,15 +10,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.WorkbookUtil;
 
 import devutility.external.poi.common.ExcelConfig;
-import devutility.external.poi.models.FieldColumnEntry;
-import devutility.external.poi.models.FieldColumnMap;
+import devutility.external.poi.models.ColumnFieldMap;
 import devutility.external.poi.models.RowStyle;
 
 public class SheetUtils {
 	/**
 	 * Create an Sheet object with unsafe name.
-	 * @param workbook: Workbook object.
-	 * @param name: Sheet name.
+	 * @param workbook Workbook object.
+	 * @param name Sheet name.
 	 * @return Sheet
 	 */
 	public static Sheet create(Workbook workbook, String name) {
@@ -28,8 +27,8 @@ public class SheetUtils {
 
 	/**
 	 * Get an Sheet object.
-	 * @param workbook: Workbook object.
-	 * @param name: Sheet name.
+	 * @param workbook Workbook object.
+	 * @param name Sheet name.
 	 * @return Sheet
 	 * @throws Exception
 	 */
@@ -45,7 +44,7 @@ public class SheetUtils {
 
 	/**
 	 * Get sheet name by sheet name format.
-	 * @param index: Sheet index
+	 * @param index Sheet index.
 	 * @return String
 	 */
 	public static String getName(int index) {
@@ -54,9 +53,9 @@ public class SheetUtils {
 
 	/**
 	 * Set new name for specific sheet.
-	 * @param workbook: Workbook object.
-	 * @param name: Sheet name.
-	 * @param newName: Sheet new name.
+	 * @param workbook Workbook object.
+	 * @param name Sheet name.
+	 * @param newName Sheet new name.
 	 */
 	public static void setName(Workbook workbook, String name, String newName) {
 		int sheetIndex = workbook.getSheetIndex(name);
@@ -71,54 +70,36 @@ public class SheetUtils {
 
 	/**
 	 * Append list to existed Sheet object.
-	 * @param sheet: Sheet object.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List object.
+	 * @param sheet Sheet object.
+	 * @param columnFieldMap The map between Excel column index and type T field.
+	 * @param list List object.
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> void append(Sheet sheet, ColumnFieldMap columnFieldMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		int rowNum = getStartRowNum(sheet);
-		List<FieldColumnEntry> fieldColumnEntries = fieldColumnMap.getSortedEntries();
-
-		if (list instanceof LinkedList) {
-			for (T model : list) {
-				RowUtils.create(sheet, rowNum++, model, fieldColumnEntries);
-			}
-
-			return;
-		}
 
 		for (int i = 0; i < list.size(); i++) {
-			RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries);
+			RowUtils.create(sheet, rowNum++, columnFieldMap, list.get(i));
 		}
 	}
 
 	/**
 	 * Append list to existed Sheet object.
-	 * @param sheet: Sheet object.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List object.
-	 * @param rowStyle: Style for each row.
+	 * @param sheet Sheet object.
+	 * @param columnFieldMap The map between Excel column index and type T field.
+	 * @param list {@code List<T>} object.
+	 * @param rowStyle Style for each row.
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static <T> void append(Sheet sheet, FieldColumnMap<T> fieldColumnMap, List<T> list, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> void append(Sheet sheet, ColumnFieldMap columnFieldMap, List<T> list, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		int rowNum = getStartRowNum(sheet);
-		List<FieldColumnEntry> fieldColumnEntries = fieldColumnMap.getSortedEntries();
-
-		if (list instanceof LinkedList) {
-			for (T model : list) {
-				RowUtils.create(sheet, rowNum++, model, fieldColumnEntries, rowStyle);
-			}
-
-			return;
-		}
 
 		for (int i = 0; i < list.size(); i++) {
-			RowUtils.create(sheet, rowNum++, list.get(i), fieldColumnEntries, rowStyle);
+			RowUtils.create(sheet, rowNum++, columnFieldMap, list.get(i), rowStyle);
 		}
 	}
 
@@ -146,13 +127,13 @@ public class SheetUtils {
 
 	/**
 	 * Convert an Sheet object to list(type T).
-	 * @param sheet
-	 * @param fieldColumnMap
-	 * @param clazz
+	 * @param sheet Sheet object.
+	 * @param columnFieldMap The map between Excel column index and type T field.
+	 * @param clazz Class object.
 	 * @return {@code List<T>}
 	 * @throws ReflectiveOperationException
 	 */
-	public static <T> List<T> toList(Sheet sheet, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
+	public static <T> List<T> toList(Sheet sheet, ColumnFieldMap columnFieldMap, Class<T> clazz) throws ReflectiveOperationException {
 		List<T> list = new LinkedList<>();
 
 		if (sheet == null) {
@@ -169,7 +150,7 @@ public class SheetUtils {
 				continue;
 			}
 
-			T model = RowUtils.toModel(row, fieldColumnMap, clazz);
+			T model = RowUtils.toModel(row, columnFieldMap, clazz);
 
 			if (model != null) {
 				list.add(model);

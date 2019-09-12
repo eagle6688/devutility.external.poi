@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import devutility.external.poi.PoiUtils;
-import devutility.external.poi.models.FieldColumnMap;
 import devutility.external.poi.models.ExcelModel;
 import devutility.internal.test.BaseTest;
 import devutility.internal.test.TestExecutor;
@@ -17,15 +16,13 @@ public class ReadTest extends BaseTest {
 	}
 
 	private void process(String fileName) {
-		FieldColumnMap<ExcelModel> fieldColumnMap = ExcelModel.getFieldColumnMap();
-
 		try (InputStream inputStream = ReadTest.class.getClassLoader().getResourceAsStream(fileName)) {
 			if (inputStream == null) {
 				println(String.format("%s not found!", fileName));
 				return;
 			}
 
-			List<ExcelModel> list = PoiUtils.read(inputStream, "Sheet1", fieldColumnMap, ExcelModel.class);
+			List<ExcelModel> list = PoiUtils.read(inputStream, "Sheet1", ExcelModel.class);
 
 			for (ExcelModel test : list) {
 				println(test.toString());

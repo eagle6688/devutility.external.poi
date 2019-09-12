@@ -15,13 +15,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import devutility.external.poi.common.ExcelType;
-import devutility.external.poi.models.FieldColumnMap;
+import devutility.external.poi.models.ColumnFieldMap;
 import devutility.external.poi.models.RowStyle;
 
 public class WorkbookUtils {
 	/**
 	 * Load excel file with file path.
-	 * @param filePath: Excel file path.
+	 * @param filePath Excel file path.
 	 * @return Workbook object.
 	 * @throws EncryptedDocumentException
 	 * @throws InvalidFormatException
@@ -39,7 +39,7 @@ public class WorkbookUtils {
 
 	/**
 	 * Create an Workbook instance use ExcelType.
-	 * @param excelType: ExcelType object.
+	 * @param excelType ExcelType object.
 	 * @return Workbook
 	 */
 	public static Workbook create(ExcelType excelType) {
@@ -52,57 +52,56 @@ public class WorkbookUtils {
 
 	/**
 	 * Save list data into specific sheet in template Workbook object.
-	 * @param templateInputStream: Template InputStream.
-	 * @param sheetName: Sheet name in template.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List data.
-	 * @param rowStyle: Style for row.
+	 * @param templateInputStream Template InputStream.
+	 * @param sheetName Sheet name in template.
+	 * @param columnFieldMap The map between Excel column index and type T field.
+	 * @param list {@code List<T>} object.
+	 * @param rowStyle Style for row.
 	 * @return Workbook
 	 * @throws Exception
 	 */
-	public static <T> Workbook save(InputStream templateInputStream, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, RowStyle rowStyle) throws Exception {
+	public static <T> Workbook save(InputStream templateInputStream, String sheetName, ColumnFieldMap columnFieldMap, List<T> list, RowStyle rowStyle) throws Exception {
 		Workbook templateWorkbook = WorkbookFactory.create(templateInputStream);
-		return save(templateWorkbook, sheetName, fieldColumnMap, list, rowStyle);
+		return save(templateWorkbook, sheetName, columnFieldMap, list, rowStyle);
 	}
 
 	/**
 	 * Save list data into specific sheet in template Workbook object.
-	 * @param templateWorkbook: Template Workbook object.
-	 * @param sheetName: Sheet name in template.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List data.
-	 * @param rowStyle: Style for row.
+	 * @param templateWorkbook Template Workbook object.
+	 * @param sheetName Sheet name in template.
+	 * @param columnFieldMap The map between Excel column index and type T field.
+	 * @param list {@code List<T>} object.
+	 * @param rowStyle Style for row.
 	 * @return Workbook
 	 * @throws Exception
 	 */
-	public static <T> Workbook save(Workbook templateWorkbook, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list, RowStyle rowStyle) throws Exception {
+	public static <T> Workbook save(Workbook templateWorkbook, String sheetName, ColumnFieldMap columnFieldMap, List<T> list, RowStyle rowStyle) throws Exception {
 		Sheet sheet = SheetUtils.get(templateWorkbook, sheetName);
 
 		if (rowStyle == null) {
-			SheetUtils.append(sheet, fieldColumnMap, list);
+			SheetUtils.append(sheet, columnFieldMap, list);
 		} else {
-			SheetUtils.append(sheet, fieldColumnMap, list, rowStyle);
+			SheetUtils.append(sheet, columnFieldMap, list, rowStyle);
 		}
 
 		return templateWorkbook;
 	}
 
 	/**
-	 * Create a new Workbook instance with specific ExcelType and sheet name, save
-	 * list data into it.
-	 * @param excelType: ExcelType object.
-	 * @param sheetName: Sheet name.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param list: List data.
+	 * Create a new Workbook instance with specific ExcelType and sheet name, save list data into it.
+	 * @param excelType ExcelType object.
+	 * @param sheetName Sheet name.
+	 * @param columnFieldMap The map between Excel column index and type T field.
+	 * @param list {@code List<T>} object.
 	 * @return Workbook
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static <T> Workbook save(ExcelType excelType, String sheetName, FieldColumnMap<T> fieldColumnMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> Workbook save(ExcelType excelType, String sheetName, ColumnFieldMap columnFieldMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Workbook workbook = WorkbookUtils.create(excelType);
 		Sheet sheet = SheetUtils.create(workbook, sheetName);
-		SheetUtils.append(sheet, fieldColumnMap, list);
+		SheetUtils.append(sheet, columnFieldMap, list);
 		return workbook;
 	}
 }

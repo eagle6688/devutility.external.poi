@@ -2,16 +2,14 @@ package devutility.external.poi.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import devutility.external.poi.models.FieldColumnEntry;
-import devutility.external.poi.models.FieldColumnMap;
+import devutility.external.poi.models.ColumnFieldMap;
 import devutility.external.poi.models.RowStyle;
 import devutility.internal.lang.ClassUtils;
 import devutility.internal.lang.models.EntityField;
@@ -20,16 +18,16 @@ public class RowUtils {
 	/**
 	 * Convert row to T type model.
 	 * @param row Row object.
-	 * @param fieldColumnMap FieldColumnMap object.
+	 * @param columnFieldMap The map between Excel column index and type T field.
 	 * @param clazz Class object.
 	 * @return {@code T}
 	 * @throws ReflectiveOperationException
 	 */
-	public static <T> T toModel(Row row, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
+	public static <T> T toModel(Row row, ColumnFieldMap columnFieldMap, Class<T> clazz) throws ReflectiveOperationException {
 		T model = ClassUtils.newInstance(clazz);
 
-		for (FieldColumnEntry entry : fieldColumnMap.getEntries()) {
-			EntityField entityField = entry.getEntityField();
+		for (Map.Entry<Integer, EntityField> entry : columnFieldMap.entrySet()) {
+			EntityField entityField = entry.getValue();
 
 			if (entityField == null) {
 				continue;
@@ -41,7 +39,7 @@ public class RowUtils {
 				continue;
 			}
 
-			int columnIndex = entry.getColumnIndex();
+			int columnIndex = entry.getKey();
 			Cell cell = row.getCell(columnIndex);
 			Object value = CellUtils.getValue(cell, entityField.fieldType());
 
@@ -54,58 +52,21 @@ public class RowUtils {
 	}
 
 	/**
-	 * Convert row to T type model.
-	 * @param row: Row object.
-	 * @param dataFormatter: DataFormatter object.
-	 * @param fieldColumnMap: FieldColumnMap object.
-	 * @param clazz: Class object.
-	 * @return {@code T}
-	 * @throws ReflectiveOperationException
-	 */
-	public static <T> T toModel(Row row, DataFormatter dataFormatter, FieldColumnMap<T> fieldColumnMap, Class<T> clazz) throws ReflectiveOperationException {
-		T model = ClassUtils.newInstance(clazz);
-
-		for (FieldColumnEntry entry : fieldColumnMap.getEntries()) {
-			EntityField entityField = entry.getEntityField();
-
-			if (entityField == null) {
-				continue;
-			}
-
-			Method setter = entityField.getSetter();
-
-			if (setter == null) {
-				continue;
-			}
-
-			int columnIndex = entry.getColumnIndex();
-			Cell cell = row.getCell(columnIndex);
-			Object value = CellUtils.getValue(cell, dataFormatter);
-
-			if (value != null) {
-				setter.invoke(model, value);
-			}
-		}
-
-		return model;
-	}
-
-	/**
 	 * Create a new Row in specific Sheet.
-	 * @param sheet: Sheet object.
-	 * @param rowNum: Row number.
-	 * @param model: Model object.
-	 * @param fieldColumnEntries: FieldColumnEntry list for type T.
+	 * @param sheet Sheet object.
+	 * @param rowNum Row number.
+	 * @param columnFieldMap The map between Excel column index and type T field.
+	 * @param model Model object.
 	 * @return Row
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static <T> Row create(Sheet sheet, int rowNum, T model, List<FieldColumnEntry> fieldColumnEntries) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> Row create(Sheet sheet, int rowNum, ColumnFieldMap columnFieldMap, T model) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Row row = sheet.createRow(rowNum);
 
-		for (FieldColumnEntry entry : fieldColumnEntries) {
-			Method getter = entry.getEntityField().getGetter();
+		for (Map.Entry<Integer, EntityField> entry : columnFieldMap.entrySet()) {
+			Method getter = entry.getValue().getGetter();
 
 			if (getter == null) {
 				continue;
@@ -114,7 +75,7 @@ public class RowUtils {
 			Object value = getter.invoke(model);
 
 			if (value != null) {
-				Cell cell = row.createCell(entry.getColumnIndex());
+				Cell cell = row.createCell(entry.getKey());
 				cell.setCellValue(value.toString());
 			}
 		}
@@ -124,21 +85,21 @@ public class RowUtils {
 
 	/**
 	 * Create a new Row in specific Sheet.
-	 * @param sheet: Sheet object.
-	 * @param rowNum: Row number.
-	 * @param model: Model object.
-	 * @param fieldColumnEntries: FieldColumnEntry list for type T.
-	 * @param rowStyle: Style for whole row.
+	 * @param sheet Sheet object.
+	 * @param rowNum Row number.
+	 * @param columnFieldMap The map between Excel column index and type T field.
+	 * @param model Model object.
+	 * @param rowStyle Style for whole row.
 	 * @return Row
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static <T> Row create(Sheet sheet, int rowNum, T model, List<FieldColumnEntry> fieldColumnEntries, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> Row create(Sheet sheet, int rowNum, ColumnFieldMap columnFieldMap, T model, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Row row = sheet.createRow(rowNum);
 
-		for (FieldColumnEntry entry : fieldColumnEntries) {
-			Method getter = entry.getEntityField().getGetter();
+		for (Map.Entry<Integer, EntityField> entry : columnFieldMap.entrySet()) {
+			Method getter = entry.getValue().getGetter();
 
 			if (getter == null) {
 				continue;
@@ -147,10 +108,10 @@ public class RowUtils {
 			Object value = getter.invoke(model);
 
 			if (value != null) {
-				Cell cell = row.createCell(entry.getColumnIndex());
+				Cell cell = row.createCell(entry.getKey());
 				cell.setCellValue(value.toString());
 
-				CellStyle cellStyle = rowStyle.getColumnStyle(entry.getColumnIndex());
+				CellStyle cellStyle = rowStyle.getColumnStyle(entry.getKey());
 
 				if (cellStyle != null) {
 					cell.setCellStyle(cellStyle);

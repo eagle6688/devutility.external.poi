@@ -16,7 +16,7 @@ public class ContractTest extends BaseTest {
 		List<ContractVo> list = new LinkedList<ContractVo>();
 
 		try (InputStream inputStream = new FileInputStream("E:\\Test\\contract.xlsx")) {
-			list = PoiUtils.read(inputStream, "Sheet1", ContractVo.getFieldColumnMap(), ContractVo.class);
+			list = PoiUtils.read(inputStream, "Sheet1", ContractVo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
