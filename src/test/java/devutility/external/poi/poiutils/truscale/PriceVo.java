@@ -1,5 +1,7 @@
 package devutility.external.poi.poiutils.truscale;
 
+import java.math.BigDecimal;
+
 public class PriceVo {
 	private String customerId;
 	private String billingConfigId;
@@ -7,20 +9,17 @@ public class PriceVo {
 	private String utilization;
 	private String utlizationPrice;
 
-	public PriceVo() {
-	}
-
-	public PriceVo(String customerId, String billingConfigId, String nodeStage, String utilization, String utlizationPrice) {
-		this.customerId = customerId;
-		this.billingConfigId = billingConfigId;
-		this.nodeStage = nodeStage;
-		this.utilization = utilization;
-		this.utlizationPrice = utlizationPrice;
-	}
-
 	@Override
 	public String toString() {
-		return "TruscalePriceExcelVo{" + "customerId='" + customerId + '\'' + ", billingConfigId='" + billingConfigId + '\'' + ", nodeStage='" + nodeStage + '\'' + ", utilization='" + utilization + '\'' + ", utlizationPrice='" + utlizationPrice + '\'' + '}';
+		try {
+			System.out.println(utlizationPrice);
+			BigDecimal bigDecimal = new BigDecimal(utlizationPrice);
+			bigDecimal = bigDecimal.setScale(0, BigDecimal.ROUND_HALF_UP);
+			return "TruscalePriceExcelVo{" + "customerId='" + customerId + '\'' + ", billingConfigId='" + billingConfigId + '\'' + ", nodeStage='" + nodeStage + '\'' + ", utilization='" + utilization + '\'' + ", utlizationPrice='" + bigDecimal.intValue()
+					+ '\'' + '}';
+		} catch (Exception e) {
+			return "";
+		}
 	}
 
 	public String getCustomerId() {
