@@ -42,12 +42,12 @@ public class RowStyleUtils {
 		/**
 		 * Map for CellStyle number between cell style and new column style.
 		 */
-		Map<Short, Short> columnStyleIndexMap = new HashMap<>(lastCellNum);
+		Map<Integer, Integer> columnStyleIndexMap = new HashMap<>(lastCellNum);
 
 		/**
 		 * Map for Font number between cell style and new column style.
 		 */
-		Map<Short, Short> columnfontIndexMap = new HashMap<>(lastCellNum);
+		Map<Integer, Integer> columnfontIndexMap = new HashMap<>(lastCellNum);
 
 		for (int cellNum = firstCellNum; cellNum < lastCellNum; cellNum++) {
 			Cell cell = row.getCell(cellNum);
@@ -80,7 +80,7 @@ public class RowStyleUtils {
 		Map<Integer, CellStyle> columnStyleMap = rowStyle.getColumnStyleMap();
 
 		for (CellStyle cellStyle : columnStyleMap.values()) {
-			short fontIndex = cellStyle.getFontIndex();
+			int fontIndex = cellStyle.getFontIndexAsInt();
 			Font font = workbook.getFontAt(fontIndex);
 
 			if (font != null) {
@@ -101,9 +101,9 @@ public class RowStyleUtils {
 		}
 	}
 
-	private static CellStyle createCellStyle(Workbook workbook, Map<Short, Short> columnStyleIndexMap, CellStyle cellStyle) {
-		short cellStyleIndex = cellStyle.getIndex();
-		Short newCellStyleIndex = columnStyleIndexMap.get(cellStyleIndex);
+	private static CellStyle createCellStyle(Workbook workbook, Map<Integer, Integer> columnStyleIndexMap, CellStyle cellStyle) {
+		int cellStyleIndex = cellStyle.getIndex();
+		Integer newCellStyleIndex = columnStyleIndexMap.get(cellStyleIndex);
 
 		if (newCellStyleIndex == null) {
 			return cloneCellStyle(workbook, columnStyleIndexMap, cellStyle);
@@ -112,17 +112,17 @@ public class RowStyleUtils {
 		return workbook.getCellStyleAt(newCellStyleIndex);
 	}
 
-	private static CellStyle cloneCellStyle(Workbook workbook, Map<Short, Short> columnStyleIndexMap, CellStyle cellStyle) {
+	private static CellStyle cloneCellStyle(Workbook workbook, Map<Integer, Integer> columnStyleIndexMap, CellStyle cellStyle) {
 		CellStyle newCellStyle = CellStyleUtils.clone(workbook, cellStyle);
-		short cellStyleIndex = cellStyle.getIndex();
-		short newCellStyleIndex = newCellStyle.getIndex();
+		int cellStyleIndex = cellStyle.getIndex();
+		int newCellStyleIndex = newCellStyle.getIndex();
 		columnStyleIndexMap.put(cellStyleIndex, newCellStyleIndex);
 		return newCellStyle;
 	}
 
-	private static Font createFont(Workbook workbook, Map<Short, Short> columnfontIndexMap, CellStyle cellStyle) {
-		short fontIndex = cellStyle.getFontIndex();
-		Short newFontIndex = columnfontIndexMap.get(fontIndex);
+	private static Font createFont(Workbook workbook, Map<Integer, Integer> columnfontIndexMap, CellStyle cellStyle) {
+		int fontIndex = cellStyle.getFontIndexAsInt();
+		Integer newFontIndex = columnfontIndexMap.get(fontIndex);
 
 		if (newFontIndex == null) {
 			return cloneFont(workbook, columnfontIndexMap, fontIndex);
@@ -131,10 +131,10 @@ public class RowStyleUtils {
 		return workbook.getFontAt(newFontIndex);
 	}
 
-	private static Font cloneFont(Workbook workbook, Map<Short, Short> columnfontIndexMap, short fontIndex) {
+	private static Font cloneFont(Workbook workbook, Map<Integer, Integer> columnfontIndexMap, int fontIndex) {
 		Font font = workbook.getFontAt(fontIndex);
 		Font newFont = FontUtils.clone(workbook, font);
-		short newFontIndex = newFont.getIndex();
+		int newFontIndex = newFont.getIndexAsInt();
 		columnfontIndexMap.put(fontIndex, newFontIndex);
 		return newFont;
 	}

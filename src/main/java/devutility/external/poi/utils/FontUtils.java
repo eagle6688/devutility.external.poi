@@ -14,7 +14,7 @@ public class FontUtils {
 	 * @return Font
 	 */
 	public static Font get(Workbook workbook, CellStyle cellStyle) {
-		short index = cellStyle.getFontIndex();
+		int index = cellStyle.getFontIndexAsInt();
 		return workbook.getFontAt(index);
 	}
 

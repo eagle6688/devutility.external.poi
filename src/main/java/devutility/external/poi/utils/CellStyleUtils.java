@@ -12,16 +12,16 @@ public class CellStyleUtils {
 	 */
 	public static CellStyle clone(Workbook workbook, CellStyle cellStyle) {
 		CellStyle newCellStyle = workbook.createCellStyle();
-		newCellStyle.setAlignment(cellStyle.getAlignmentEnum());
-		newCellStyle.setBorderBottom(cellStyle.getBorderBottomEnum());
-		newCellStyle.setBorderLeft(cellStyle.getBorderLeftEnum());
-		newCellStyle.setBorderRight(cellStyle.getBorderRightEnum());
-		newCellStyle.setBorderTop(cellStyle.getBorderTopEnum());
+		newCellStyle.setAlignment(cellStyle.getAlignment());
+		newCellStyle.setBorderBottom(cellStyle.getBorderBottom());
+		newCellStyle.setBorderLeft(cellStyle.getBorderLeft());
+		newCellStyle.setBorderRight(cellStyle.getBorderRight());
+		newCellStyle.setBorderTop(cellStyle.getBorderTop());
 		newCellStyle.setBottomBorderColor(cellStyle.getBottomBorderColor());
 		newCellStyle.setDataFormat(cellStyle.getDataFormat());
 		newCellStyle.setFillBackgroundColor(cellStyle.getFillBackgroundColor());
 		newCellStyle.setFillForegroundColor(cellStyle.getFillForegroundColor());
-		newCellStyle.setFillPattern(cellStyle.getFillPatternEnum());
+		newCellStyle.setFillPattern(cellStyle.getFillPattern());
 		newCellStyle.setHidden(cellStyle.getHidden());
 		newCellStyle.setIndention(cellStyle.getIndention());
 		newCellStyle.setLeftBorderColor(cellStyle.getLeftBorderColor());
@@ -31,7 +31,7 @@ public class CellStyleUtils {
 		newCellStyle.setRotation(cellStyle.getRotation());
 		newCellStyle.setShrinkToFit(cellStyle.getShrinkToFit());
 		newCellStyle.setTopBorderColor(cellStyle.getTopBorderColor());
-		newCellStyle.setVerticalAlignment(cellStyle.getVerticalAlignmentEnum());
+		newCellStyle.setVerticalAlignment(cellStyle.getVerticalAlignment());
 		newCellStyle.setWrapText(cellStyle.getWrapText());
 		return newCellStyle;
 	}

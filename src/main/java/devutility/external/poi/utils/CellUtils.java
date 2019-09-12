@@ -21,7 +21,7 @@ public class CellUtils {
 			return null;
 		}
 
-		switch (cell.getCellTypeEnum()) {
+		switch (cell.getCellType()) {
 		case STRING:
 			return cell.getStringCellValue();
 
@@ -82,12 +82,11 @@ public class CellUtils {
 		}
 
 		int cellNum = templateCell.getColumnIndex();
-		CellType cellType = templateCell.getCellTypeEnum();
+		CellType cellType = templateCell.getCellType();
 
 		Cell cell = row.createCell(cellNum);
 		cell.setCellComment(templateCell.getCellComment());
 		cell.setCellStyle(templateCell.getCellStyle());
-		cell.setCellType(cellType);
 
 		switch (cellType) {
 		case NUMERIC:

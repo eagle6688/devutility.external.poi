@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -25,28 +24,28 @@ public class FontTest extends BaseTest {
 
 		try {
 			workbook = WorkbookFactory.create(inputStream);
-		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+		} catch (EncryptedDocumentException | IOException e) {
 			e.printStackTrace();
 		}
 
-		println(workbook.getNumberOfFonts());
+		println(workbook.getNumberOfFontsAsInt());
 
-		for (int i = 0; i < workbook.getNumberOfFonts(); i++) {
-			Font font = workbook.getFontAt((short) i);
+		for (int i = 0; i < workbook.getNumberOfFontsAsInt(); i++) {
+			Font font = workbook.getFontAt(i);
 			println(font.getFontName());
 			println(String.valueOf(font.getBold()));
 		}
 
-		if (workbook.getFontAt((short) 0).equals(workbook.getFontAt((short) 1))) {
+		if (workbook.getFontAt(0).equals(workbook.getFontAt(1))) {
 			println("Equal");
 		} else {
 			println("Not equal");
 		}
 
 		println("===============New===============");
-		Font font0 = workbook.getFontAt((short) 0);
+		Font font0 = workbook.getFontAt(0);
 		Font newFont = FontUtils.clone(workbook, font0);
-		println(workbook.getNumberOfFonts());
+		println(workbook.getNumberOfFontsAsInt());
 
 		if (newFont.equals(font0)) {
 			println("Equal");
