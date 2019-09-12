@@ -10,7 +10,7 @@ import devutility.internal.test.BaseTest;
 import devutility.internal.test.TestExecutor;
 import devutility.internal.util.CollectionUtils;
 
-public class ContractTest extends BaseTest {
+public class ContractReadTest extends BaseTest {
 	@Override
 	public void run() {
 		List<ContractVo> list = new LinkedList<ContractVo>();
@@ -29,6 +29,6 @@ public class ContractTest extends BaseTest {
 	}
 
 	public static void main(String[] args) {
-		TestExecutor.run(ContractTest.class);
+		TestExecutor.run(ContractReadTest.class);
 	}
 }
