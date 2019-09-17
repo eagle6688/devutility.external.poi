@@ -15,7 +15,7 @@ public class PriceReadTest extends BaseTest {
 	public void run() {
 		List<PriceVo> list = new LinkedList<PriceVo>();
 
-		try (InputStream inputStream = new FileInputStream("E:\\Test\\PriceImportTemplate.xlsx")) {
+		try (InputStream inputStream = new FileInputStream("E:\\Test\\Price.xlsx")) {
 			list = PoiUtils.read(inputStream, "Sheet1", PriceVo.class);
 		} catch (Exception e) {
 			e.printStackTrace();
