@@ -8,7 +8,7 @@
 	<artifactId>devutility.external.poi</artifactId>
 	<version>1.0.6</version>
 	<packaging>jar</packaging>
-	<description>Some utilities for Apache POI version 4.*</description>
+	<description>Some utilities for Apache POI.</description>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
