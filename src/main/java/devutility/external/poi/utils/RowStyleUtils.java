@@ -10,7 +10,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import devutility.external.poi.models.RowStyle;
+import devutility.external.poi.model.RowStyle;
 
 public class RowStyleUtils {
 	public static RowStyle clone(Workbook workbook, String sheetName, int rowNum, boolean excludeBold, short fontSize) throws Exception {

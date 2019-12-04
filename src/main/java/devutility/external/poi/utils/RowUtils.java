@@ -9,8 +9,8 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import devutility.external.poi.models.ColumnFieldMap;
-import devutility.external.poi.models.RowStyle;
+import devutility.external.poi.model.ColumnFieldMap;
+import devutility.external.poi.model.RowStyle;
 import devutility.internal.lang.ClassUtils;
 import devutility.internal.lang.models.EntityField;
 

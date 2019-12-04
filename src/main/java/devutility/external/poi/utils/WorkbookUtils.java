@@ -15,8 +15,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import devutility.external.poi.common.ExcelType;
-import devutility.external.poi.models.ColumnFieldMap;
-import devutility.external.poi.models.RowStyle;
+import devutility.external.poi.model.ColumnFieldMap;
+import devutility.external.poi.model.RowStyle;
 
 public class WorkbookUtils {
 	/**

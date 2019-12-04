@@ -1,4 +1,4 @@
-package devutility.external.poi.models;
+package devutility.external.poi.model;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,6 +22,7 @@ public class ColumnFieldMap extends LinkedHashMap<Integer, EntityField> {
 
 	/**
 	 * Constructor
+	 * @param clazz Class object.
 	 */
 	public ColumnFieldMap(Class<?> clazz) {
 		List<EntityField> entityFields = ClassUtils.getEntityFields(clazz);

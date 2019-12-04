@@ -1,12 +1,18 @@
-package devutility.external.poi.models;
+package devutility.external.poi.model;
 
+/**
+ * 
+ * ExcelProperties
+ * 
+ * @author: Aldwin Su
+ * @version: 2019-12-04 23:00:53
+ */
 public class ExcelProperties {
 	private int maxSheetsCount;
 	private int maxRowsCount;
 	private int maxColumnsCount;
 
 	public ExcelProperties() {
-
 	}
 
 	public ExcelProperties(int maxSheetsCount, int maxRowsCount, int maxColumnsCount) {

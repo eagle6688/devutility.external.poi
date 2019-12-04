@@ -7,8 +7,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import devutility.external.poi.PoiUtils;
+import devutility.external.poi.model.RowStyle;
 import devutility.external.poi.models.ExcelModel;
-import devutility.external.poi.models.RowStyle;
 import devutility.external.poi.utils.RowStyleUtils;
 import devutility.internal.test.BaseTest;
 import devutility.internal.test.TestExecutor;

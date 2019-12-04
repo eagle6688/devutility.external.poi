@@ -1,9 +1,16 @@
-package devutility.external.poi.models;
+package devutility.external.poi.model;
 
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.CellStyle;
 
+/**
+ * 
+ * RowStyle
+ * 
+ * @author: Aldwin Su
+ * @version: 2019-12-04 23:01:13
+ */
 public class RowStyle {
 	/**
 	 * Row number.

@@ -10,8 +10,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import devutility.external.poi.common.ExcelType;
-import devutility.external.poi.models.ColumnFieldMap;
-import devutility.external.poi.models.RowStyle;
+import devutility.external.poi.model.ColumnFieldMap;
+import devutility.external.poi.model.RowStyle;
 import devutility.external.poi.utils.ExcelUtils;
 import devutility.external.poi.utils.SheetUtils;
 import devutility.external.poi.utils.WorkbookUtils;
