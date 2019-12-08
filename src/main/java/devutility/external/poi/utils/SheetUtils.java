@@ -30,13 +30,12 @@ public class SheetUtils {
 	 * @param workbook Workbook object.
 	 * @param name Sheet name.
 	 * @return Sheet
-	 * @throws Exception
 	 */
-	public static Sheet get(Workbook workbook, String name) throws Exception {
+	public static Sheet get(Workbook workbook, String name) {
 		Sheet sheet = workbook.getSheet(name);
 
 		if (sheet == null) {
-			throw new Exception(String.format("Sheet %s not found!", name));
+			throw new IllegalArgumentException(String.format("Sheet %s not found!", name));
 		}
 
 		return sheet;

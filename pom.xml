@@ -59,18 +59,20 @@
 	</distributionManagement>
 	<!-- distributionManagement end -->
 
+	<!-- dependencies -->
 	<dependencies>
-		<!-- poi -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>${poi-version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>${poi-version}</version>
+			<scope>provided</scope>
 		</dependency>
-		<!-- poi end -->
 	</dependencies>
+	<!-- dependencies end -->
 </project>

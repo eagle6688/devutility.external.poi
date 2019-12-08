@@ -58,9 +58,14 @@ public class WorkbookUtils {
 	 * @param list {@code List<T>} object.
 	 * @param rowStyle Style for row.
 	 * @return Workbook
-	 * @throws Exception
+	 * @throws IOException from WorkbookFactory.create method.
+	 * @throws EncryptedDocumentException from WorkbookFactory.create method.
+	 * @throws InvocationTargetException from save method.
+	 * @throws IllegalArgumentException from save method.
+	 * @throws IllegalAccessException from save method.
 	 */
-	public static <T> Workbook save(InputStream templateInputStream, String sheetName, ColumnFieldMap columnFieldMap, List<T> list, RowStyle rowStyle) throws Exception {
+	public static <T> Workbook save(InputStream templateInputStream, String sheetName, ColumnFieldMap columnFieldMap, List<T> list, RowStyle rowStyle)
+			throws EncryptedDocumentException, IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Workbook templateWorkbook = WorkbookFactory.create(templateInputStream);
 		return save(templateWorkbook, sheetName, columnFieldMap, list, rowStyle);
 	}
@@ -73,9 +78,11 @@ public class WorkbookUtils {
 	 * @param list {@code List<T>} object.
 	 * @param rowStyle Style for row.
 	 * @return Workbook
-	 * @throws Exception
+	 * @throws InvocationTargetException from SheetUtils.append method.
+	 * @throws IllegalArgumentException from SheetUtils.append method.
+	 * @throws IllegalAccessException from SheetUtils.append method.
 	 */
-	public static <T> Workbook save(Workbook templateWorkbook, String sheetName, ColumnFieldMap columnFieldMap, List<T> list, RowStyle rowStyle) throws Exception {
+	public static <T> Workbook save(Workbook templateWorkbook, String sheetName, ColumnFieldMap columnFieldMap, List<T> list, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Sheet sheet = SheetUtils.get(templateWorkbook, sheetName);
 
 		if (rowStyle == null) {
@@ -94,9 +101,9 @@ public class WorkbookUtils {
 	 * @param columnFieldMap The map between Excel column index and type T field.
 	 * @param list {@code List<T>} object.
 	 * @return Workbook
-	 * @throws IllegalAccessException
-	 * @throws IllegalArgumentException
-	 * @throws InvocationTargetException
+	 * @throws IllegalAccessException from SheetUtils.append method.
+	 * @throws IllegalArgumentException from SheetUtils.append method.
+	 * @throws InvocationTargetException from SheetUtils.append method.
 	 */
 	public static <T> Workbook save(ExcelType excelType, String sheetName, ColumnFieldMap columnFieldMap, List<T> list) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Workbook workbook = WorkbookUtils.create(excelType);

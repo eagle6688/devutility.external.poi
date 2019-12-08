@@ -1,10 +1,14 @@
 package devutility.external.poi;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -31,9 +35,12 @@ public class PoiUtils {
 	 * @param sheetName Sheet name in Excel file.
 	 * @param clazz Class object.
 	 * @return {@code List<T>}
-	 * @throws Exception
+	 * @throws IOException from WorkbookUtils.load or workbook.close methods.
+	 * @throws InvalidFormatException from WorkbookUtils.load method.
+	 * @throws EncryptedDocumentException from WorkbookUtils.load method.
+	 * @throws ReflectiveOperationException from SheetUtils.toList method.
 	 */
-	public static <T> List<T> read(String filePath, String sheetName, Class<T> clazz) throws Exception {
+	public static <T> List<T> read(String filePath, String sheetName, Class<T> clazz) throws EncryptedDocumentException, InvalidFormatException, IOException, ReflectiveOperationException {
 		Workbook workbook = WorkbookUtils.load(filePath);
 		Sheet sheet = SheetUtils.get(workbook, sheetName);
 		List<T> list = SheetUtils.toList(sheet, new ColumnFieldMap(clazz), clazz);
@@ -47,9 +54,11 @@ public class PoiUtils {
 	 * @param sheetName Sheet name in Excel file.
 	 * @param clazz: Class object.
 	 * @return {@code List<T>}
-	 * @throws Exception
+	 * @throws IOException from WorkbookFactory.create or workbook.close methods.
+	 * @throws EncryptedDocumentException from WorkbookFactory.create method.
+	 * @throws ReflectiveOperationException from SheetUtils.toList method.
 	 */
-	public static <T> List<T> read(InputStream inputStream, String sheetName, Class<T> clazz) throws Exception {
+	public static <T> List<T> read(InputStream inputStream, String sheetName, Class<T> clazz) throws EncryptedDocumentException, IOException, ReflectiveOperationException {
 		Workbook workbook = WorkbookFactory.create(inputStream);
 		Sheet sheet = SheetUtils.get(workbook, sheetName);
 		List<T> list = SheetUtils.toList(sheet, new ColumnFieldMap(clazz), clazz);
@@ -64,9 +73,14 @@ public class PoiUtils {
 	 * @param list {@code List<T>} object.
 	 * @param rowStyle Style for row.
 	 * @param outputStream OutputStream object that receive list data.
-	 * @throws Exception
+	 * @throws IOException from WorkbookUtils.save, workbook.write or workbook.close methods.
+	 * @throws InvocationTargetException from WorkbookUtils.save method.
+	 * @throws IllegalArgumentException from WorkbookUtils.save method.
+	 * @throws IllegalAccessException from WorkbookUtils.save method.
+	 * @throws EncryptedDocumentException from WorkbookUtils.save method.
 	 */
-	public static <T> void save(InputStream templateInputStream, String sheetName, List<T> list, RowStyle rowStyle, OutputStream outputStream) throws Exception {
+	public static <T> void save(InputStream templateInputStream, String sheetName, List<T> list, RowStyle rowStyle, OutputStream outputStream)
+			throws EncryptedDocumentException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		if (CollectionUtils.isNullOrEmpty(list)) {
 			return;
 		}
@@ -84,9 +98,13 @@ public class PoiUtils {
 	 * @param sheetName Sheet name in template and will in outputStream.
 	 * @param list {@code List<T>} object.
 	 * @param outputStream OutputStream object that receive list data.
-	 * @throws Exception
+	 * @throws IOException from save method.
+	 * @throws InvocationTargetException from save method.
+	 * @throws IllegalArgumentException from save method.
+	 * @throws IllegalAccessException from save method.
+	 * @throws EncryptedDocumentException from save method.
 	 */
-	public static <T> void save(InputStream templateInputStream, String sheetName, List<T> list, OutputStream outputStream) throws Exception {
+	public static <T> void save(InputStream templateInputStream, String sheetName, List<T> list, OutputStream outputStream) throws EncryptedDocumentException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		save(templateInputStream, sheetName, list, null, outputStream);
 	}
 
@@ -97,9 +115,13 @@ public class PoiUtils {
 	 * @param list {@code List<T>} object.
 	 * @param rowStyle Style for row.
 	 * @param filePath File path for new Excel file.
-	 * @throws Exception
+	 * @throws IOException from FileOutputStream constructor or save method.
+	 * @throws InvocationTargetException from save method.
+	 * @throws IllegalArgumentException from save method.
+	 * @throws IllegalAccessException from save method.
+	 * @throws EncryptedDocumentException from save method.
 	 */
-	public static <T> void save(InputStream templateInputStream, String sheetName, List<T> list, RowStyle rowStyle, String filePath) throws Exception {
+	public static <T> void save(InputStream templateInputStream, String sheetName, List<T> list, RowStyle rowStyle, String filePath) throws EncryptedDocumentException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		FileOutputStream outputStream = new FileOutputStream(filePath, false);
 		save(templateInputStream, sheetName, list, rowStyle, outputStream);
 	}
@@ -110,9 +132,13 @@ public class PoiUtils {
 	 * @param sheetName Sheet name in template and will in output Excel file.
 	 * @param list {@code List<T>} object.
 	 * @param filePath File path for new Excel file.
-	 * @throws Exception
+	 * @throws IOException from save method.
+	 * @throws InvocationTargetException from save method.
+	 * @throws IllegalArgumentException from save method.
+	 * @throws IllegalAccessException from save method.
+	 * @throws EncryptedDocumentException from save method.
 	 */
-	public static <T> void save(InputStream templateInputStream, String sheetName, List<T> list, String filePath) throws Exception {
+	public static <T> void save(InputStream templateInputStream, String sheetName, List<T> list, String filePath) throws EncryptedDocumentException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		save(templateInputStream, sheetName, list, null, filePath);
 	}
 
@@ -122,9 +148,12 @@ public class PoiUtils {
 	 * @param sheetName Sheet name in outputStream.
 	 * @param list {@code List<T>} object.
 	 * @param outputStream OutputStream object that receive list data.
-	 * @throws Exception
+	 * @throws InvocationTargetException from WorkbookUtils.save method.
+	 * @throws IllegalArgumentException from WorkbookUtils.save method.
+	 * @throws IllegalAccessException from WorkbookUtils.save method.
+	 * @throws IOException from workbook.write or workbook.close methods.
 	 */
-	public static <T> void save(ExcelType excelType, String sheetName, List<T> list, OutputStream outputStream) throws Exception {
+	public static <T> void save(ExcelType excelType, String sheetName, List<T> list, OutputStream outputStream) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		if (CollectionUtils.isNullOrEmpty(list)) {
 			return;
 		}
@@ -141,9 +170,12 @@ public class PoiUtils {
 	 * @param excelType ExcelType object.
 	 * @param list {@code List<T>} object.
 	 * @param outputStream OutputStream object that receive list data.
-	 * @throws Exception
+	 * @throws IOException from save method.
+	 * @throws InvocationTargetException from save method.
+	 * @throws IllegalArgumentException from save method.
+	 * @throws IllegalAccessException from save method.
 	 */
-	public static <T> void save(ExcelType excelType, List<T> list, OutputStream outputStream) throws Exception {
+	public static <T> void save(ExcelType excelType, List<T> list, OutputStream outputStream) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		String sheetName = SheetUtils.getName(1);
 		save(excelType, sheetName, list, outputStream);
 	}
@@ -153,9 +185,12 @@ public class PoiUtils {
 	 * @param sheetName Sheet name.
 	 * @param list {@code List<T>} object.
 	 * @param filePath File path for new Excel file.
-	 * @throws Exception
+	 * @throws IOException from FileOutputStream constructor or save method.
+	 * @throws InvocationTargetException from save method.
+	 * @throws IllegalArgumentException from save method.
+	 * @throws IllegalAccessException from save method.
 	 */
-	public static <T> void save(String sheetName, List<T> list, String filePath) throws Exception {
+	public static <T> void save(String sheetName, List<T> list, String filePath) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		FileOutputStream outputStream = new FileOutputStream(filePath, false);
 		ExcelType excelType = ExcelUtils.getExcelType(filePath);
 		save(excelType, sheetName, list, outputStream);
@@ -165,23 +200,29 @@ public class PoiUtils {
 	 * Create a new Excel file with specific excelType and file path, save list data into it.
 	 * @param list {@code List<T>} object.
 	 * @param filePath File path for new Excel file.
-	 * @throws Exception
+	 * @throws IOException from save method.
+	 * @throws InvocationTargetException from save method.
+	 * @throws IllegalArgumentException from save method.
+	 * @throws IllegalAccessException from save method.
 	 */
-	public static <T> void save(List<T> list, String filePath) throws Exception {
+	public static <T> void save(List<T> list, String filePath) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		String sheetName = SheetUtils.getName(1);
 		save(sheetName, list, filePath);
 	}
 
 	/**
 	 * Append list data into template Excel file and save them into OutputStream object.
-	 * @param templateWorkbook Workbook for template.
+	 * @param templateWorkbook Workbook for template, need to be closed after used.
 	 * @param sheetName Sheet name in template and will in outputStream.
 	 * @param list {@code List<T>} object.
 	 * @param rowStyle Style for row.
 	 * @param outputStream OutputStream object that receive list data.
-	 * @throws Exception
+	 * @throws InvocationTargetException from WorkbookUtils.save method.
+	 * @throws IllegalArgumentException from WorkbookUtils.save method.
+	 * @throws IllegalAccessException from WorkbookUtils.save method.
+	 * @throws IOException from workbook.write method.
 	 */
-	public static <T> void save(Workbook templateWorkbook, String sheetName, List<T> list, RowStyle rowStyle, OutputStream outputStream) throws Exception {
+	public static <T> void save(Workbook templateWorkbook, String sheetName, List<T> list, RowStyle rowStyle, OutputStream outputStream) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		if (CollectionUtils.isNullOrEmpty(list)) {
 			return;
 		}
@@ -194,14 +235,17 @@ public class PoiUtils {
 
 	/**
 	 * Create a new Excel file with specific template, sheet name and file path, save list data into it.
-	 * @param templateWorkbook Workbook for template.
+	 * @param templateWorkbook Workbook for template, need to be closed after used.
 	 * @param sheetName Sheet name in template and will in output Excel file.
 	 * @param list {@code List<T>} object.
 	 * @param rowStyle Style for row.
 	 * @param filePath File path for new Excel file.
-	 * @throws Exception
+	 * @throws IOException from FileOutputStream constructor or save method.
+	 * @throws InvocationTargetException from save method.
+	 * @throws IllegalArgumentException from save method.
+	 * @throws IllegalAccessException from save method.
 	 */
-	public static <T> void save(Workbook templateWorkbook, String sheetName, List<T> list, RowStyle rowStyle, String filePath) throws Exception {
+	public static <T> void save(Workbook templateWorkbook, String sheetName, List<T> list, RowStyle rowStyle, String filePath) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		FileOutputStream outputStream = new FileOutputStream(filePath, false);
 		save(templateWorkbook, sheetName, list, rowStyle, outputStream);
 	}
