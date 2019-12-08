@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import devutility.external.poi.PoiUtils;
-import devutility.external.poi.models.ExcelModel;
+import devutility.external.poi.model.ExcelModel;
 import devutility.internal.test.BaseTest;
 import devutility.internal.test.TestExecutor;
 

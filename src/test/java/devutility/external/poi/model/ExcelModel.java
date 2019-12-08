@@ -1,4 +1,4 @@
-package devutility.external.poi.models;
+package devutility.external.poi.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ public class ExcelModel {
 	@ExcelColumn(index = 1)
 	private String third;
 
+	private String fifth;
+
 	@ExcelColumn(index = 3)
 	private String fourth;
 
@@ -22,15 +24,16 @@ public class ExcelModel {
 
 	}
 
-	public ExcelModel(String first, String second, String third, String fourth) {
+	public ExcelModel(String first, String second, String third, String fourth, String fifth) {
 		this.first = first;
 		this.second = second;
 		this.third = third;
 		this.fourth = fourth;
+		this.fifth = fifth;
 	}
 
 	public String toString() {
-		return String.format("First: %s, Second: %s, Third: %s, Fourth: %s", first, second, third, fourth);
+		return String.format("First: %s, Second: %s, Third: %s, Fourth: %s, Fifth: %s", first, second, third, fourth, fifth);
 	}
 
 	public static List<ExcelModel> create(int count) {
@@ -42,7 +45,8 @@ public class ExcelModel {
 			String second = String.format("Second-%d", num);
 			String third = String.format("Third-%d", num);
 			String fourth = String.format("Fourth-%d", num);
-			ExcelModel excelModel = new ExcelModel(first, second, third, fourth);
+			String fifth = String.format("Fifth-%d", num);
+			ExcelModel excelModel = new ExcelModel(first, second, third, fourth, fifth);
 			list.add(excelModel);
 		}
 
@@ -71,6 +75,14 @@ public class ExcelModel {
 
 	public void setThird(String third) {
 		this.third = third;
+	}
+
+	public String getFifth() {
+		return fifth;
+	}
+
+	public void setFifth(String fifth) {
+		this.fifth = fifth;
 	}
 
 	public String getFourth() {
