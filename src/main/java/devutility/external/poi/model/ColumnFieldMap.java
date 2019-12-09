@@ -30,7 +30,7 @@ public class ColumnFieldMap extends LinkedHashMap<Integer, EntityField> {
 	 */
 	public ColumnFieldMap(Class<?> clazz) {
 		List<Class<? extends Annotation>> annotaionClasses = Arrays.asList(Ignore.class);
-		List<EntityField> entityFields = ClassUtils.getEntityFields(clazz, annotaionClasses);
+		List<EntityField> entityFields = ClassUtils.getNonAnnotationClassesEntityFields(annotaionClasses, clazz);
 		List<EntityField> nonExcelColumnEntityFields = new LinkedList<>();
 
 		for (int i = 0; i < entityFields.size(); i++) {
