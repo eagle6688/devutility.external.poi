@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devutility.external.poi.common.ExcelColumn;
+import devutility.internal.annotations.Ignore;
 
 public class ExcelModel {
 	@ExcelColumn(index = 0)
@@ -15,7 +16,10 @@ public class ExcelModel {
 	@ExcelColumn(index = 1)
 	private String third;
 
+	@Ignore
 	private String fifth;
+
+	private String sixth;
 
 	@ExcelColumn(index = 4)
 	private String fourth;
@@ -83,6 +87,14 @@ public class ExcelModel {
 
 	public void setFifth(String fifth) {
 		this.fifth = fifth;
+	}
+
+	public String getSixth() {
+		return sixth;
+	}
+
+	public void setSixth(String sixth) {
+		this.sixth = sixth;
 	}
 
 	public String getFourth() {
