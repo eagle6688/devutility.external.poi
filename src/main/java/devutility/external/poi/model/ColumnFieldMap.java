@@ -10,6 +10,7 @@ import devutility.external.poi.common.ExcelColumnUtils;
 import devutility.internal.annotations.Ignore;
 import devutility.internal.lang.ClassUtils;
 import devutility.internal.lang.models.EntityField;
+import devutility.internal.util.CollectionUtils;
 
 /**
  * 
@@ -49,8 +50,10 @@ public class ColumnFieldMap extends LinkedHashMap<Integer, EntityField> {
 			put(columnIndex, entityField);
 		}
 
-		for (EntityField nonExcelColumnEntityField : nonExcelColumnEntityFields) {
+		int startIndex = CollectionUtils.maxInt(this.keySet()) + 1;
 
+		for (EntityField nonExcelColumnEntityField : nonExcelColumnEntityFields) {
+			put(startIndex++, nonExcelColumnEntityField);
 		}
 	}
 }
