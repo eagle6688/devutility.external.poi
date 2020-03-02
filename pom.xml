@@ -3,38 +3,14 @@
 	<parent>
 		<groupId>com.github.eagle6688</groupId>
 		<artifactId>devutility.external</artifactId>
-		<version>1.1.11</version>
+		<version>1.2.0</version>
 	</parent>
 	<artifactId>devutility.external.poi</artifactId>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<packaging>jar</packaging>
+	<url>https://github.com/eagle6688/devutility.external.poi</url>
+	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Some utilities for Apache POI.</description>
-	<url>http://maven.apache.org</url>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<poi-version>4.1.1</poi-version>
-	</properties>
-
-	<!-- License -->
-	<licenses>
-		<license>
-			<name>The Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-		</license>
-	</licenses>
-	<!-- License end -->
-
-	<!-- Developers -->
-	<developers>
-		<developer>
-			<name>Aldwin Su</name>
-			<email>fangyansu@163.com</email>
-			<timezone>+8</timezone>
-		</developer>
-	</developers>
-	<!-- Developers end -->
 
 	<!-- scm -->
 	<scm>
@@ -45,32 +21,21 @@
 	</scm>
 	<!-- scm end -->
 
-	<!-- distributionManagement -->
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<name>Maven Central Staging Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
-	<!-- distributionManagement end -->
-
 	<!-- dependencies -->
 	<dependencies>
 		<dependency>
+			<groupId>com.github.eagle6688</groupId>
+			<artifactId>devutility.internal</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>${poi-version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>${poi-version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
