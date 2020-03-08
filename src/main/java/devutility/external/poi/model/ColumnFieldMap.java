@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import devutility.external.poi.common.ExcelColumnUtils;
-import devutility.internal.annotations.Ignore;
+import devutility.internal.annotation.Ignore;
 import devutility.internal.lang.ClassUtils;
 import devutility.internal.lang.models.EntityField;
 import devutility.internal.util.CollectionUtils;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devutility.external.poi.common.ExcelColumn;
-import devutility.internal.annotations.Ignore;
+import devutility.internal.annotation.Ignore;
 
 public class ExcelModel {
 	@ExcelColumn(index = 0)
