@@ -9,7 +9,7 @@ import java.util.List;
 import devutility.external.poi.common.ExcelColumnUtils;
 import devutility.internal.annotation.Ignore;
 import devutility.internal.lang.ClassUtils;
-import devutility.internal.lang.models.EntityField;
+import devutility.internal.model.EntityField;
 import devutility.internal.util.CollectionUtils;
 
 /**

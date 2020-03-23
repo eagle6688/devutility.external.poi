@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import devutility.external.poi.model.ColumnFieldMap;
 import devutility.external.poi.model.RowStyle;
 import devutility.internal.lang.ClassUtils;
-import devutility.internal.lang.models.EntityField;
+import devutility.internal.model.EntityField;
 
 public class RowUtils {
 	/**
