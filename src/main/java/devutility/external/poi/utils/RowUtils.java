@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import devutility.external.poi.model.ColumnFieldMap;
 import devutility.external.poi.model.RowStyle;
 import devutility.internal.lang.ClassUtils;
-import devutility.internal.model.EntityField;
+import devutility.internal.model.ObjectField;
 
 public class RowUtils {
 	/**
@@ -26,8 +26,8 @@ public class RowUtils {
 	public static <T> T toModel(Row row, ColumnFieldMap columnFieldMap, Class<T> clazz) throws ReflectiveOperationException {
 		T model = ClassUtils.newInstance(clazz);
 
-		for (Map.Entry<Integer, EntityField> entry : columnFieldMap.entrySet()) {
-			EntityField entityField = entry.getValue();
+		for (Map.Entry<Integer, ObjectField> entry : columnFieldMap.entrySet()) {
+			ObjectField entityField = entry.getValue();
 
 			if (entityField == null) {
 				continue;
@@ -65,7 +65,7 @@ public class RowUtils {
 	public static <T> Row create(Sheet sheet, int rowNum, ColumnFieldMap columnFieldMap, T model) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Row row = sheet.createRow(rowNum);
 
-		for (Map.Entry<Integer, EntityField> entry : columnFieldMap.entrySet()) {
+		for (Map.Entry<Integer, ObjectField> entry : columnFieldMap.entrySet()) {
 			Method getter = entry.getValue().getGetter();
 
 			if (getter == null) {
@@ -98,7 +98,7 @@ public class RowUtils {
 	public static <T> Row create(Sheet sheet, int rowNum, ColumnFieldMap columnFieldMap, T model, RowStyle rowStyle) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Row row = sheet.createRow(rowNum);
 
-		for (Map.Entry<Integer, EntityField> entry : columnFieldMap.entrySet()) {
+		for (Map.Entry<Integer, ObjectField> entry : columnFieldMap.entrySet()) {
 			Method getter = entry.getValue().getGetter();
 
 			if (getter == null) {

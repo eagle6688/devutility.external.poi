@@ -9,7 +9,7 @@ import java.util.List;
 import devutility.external.poi.common.ExcelColumnUtils;
 import devutility.internal.annotation.Ignore;
 import devutility.internal.lang.ClassUtils;
-import devutility.internal.model.EntityField;
+import devutility.internal.model.ObjectField;
 import devutility.internal.util.CollectionUtils;
 
 /**
@@ -19,7 +19,7 @@ import devutility.internal.util.CollectionUtils;
  * @author: Aldwin Su
  * @version: 2019-09-12 22:25:24
  */
-public class ColumnFieldMap extends LinkedHashMap<Integer, EntityField> {
+public class ColumnFieldMap extends LinkedHashMap<Integer, ObjectField> {
 	/**
 	 * @Fields serialVersionUID
 	 */
@@ -31,11 +31,11 @@ public class ColumnFieldMap extends LinkedHashMap<Integer, EntityField> {
 	 */
 	public ColumnFieldMap(Class<?> clazz) {
 		List<Class<? extends Annotation>> annotaionClasses = Arrays.asList(Ignore.class);
-		List<EntityField> entityFields = ClassUtils.getNonAnnotationClassesEntityFields(annotaionClasses, clazz);
-		List<EntityField> nonExcelColumnEntityFields = new LinkedList<>();
+		List<ObjectField> entityFields = ClassUtils.getNonAnnotationClassesEntityFields(annotaionClasses, clazz);
+		List<ObjectField> nonExcelColumnEntityFields = new LinkedList<>();
 
 		for (int i = 0; i < entityFields.size(); i++) {
-			EntityField entityField = entityFields.get(i);
+			ObjectField entityField = entityFields.get(i);
 			int columnIndex = ExcelColumnUtils.getIndex(entityField.getField());
 
 			if (this.containsKey(columnIndex)) {
@@ -52,7 +52,7 @@ public class ColumnFieldMap extends LinkedHashMap<Integer, EntityField> {
 
 		int startIndex = CollectionUtils.maxInt(this.keySet()) + 1;
 
-		for (EntityField nonExcelColumnEntityField : nonExcelColumnEntityFields) {
+		for (ObjectField nonExcelColumnEntityField : nonExcelColumnEntityFields) {
 			put(startIndex++, nonExcelColumnEntityField);
 		}
 	}
